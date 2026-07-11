@@ -1,0 +1,83 @@
+# FAQ — NextChapter Schedule Builder
+
+Questions marked **[YOU FILL IN]** need your program's specifics — everyone
+else is answered by how the app actually works.
+
+## For students
+
+**I lost my code — can you find my schedule?**
+Technically: no, not through the app itself. By design, nothing in this app is
+tied to your name, but staff can get you a copy of your schedule.
+
+**Does this cost anything / do I need a Google account?**
+No Google account is needed to build or print a schedule. A Google
+account **is** needed only if you want to open the "Create my Google
+Doc/Sheet" links (same as needing an account to open any Google file).
+
+**What if none of the activities match what I picked?**
+The app will tell you no match was found and suggest asking a staff
+member.
+
+**Can staff help me fill this out?**
+Yes, please make an appointment in advance!
+
+**What devices/browsers does this work on?**
+Any modern phone, tablet, or computer browser (Chrome, Safari, Edge,
+Firefox). No app download needed.
+
+## For staff
+
+**Will a new Google Sheet get created every month?**
+Two different things to know:
+- The **shared class list** (the Sheet you deployed Apps Script from) is
+  one permanent Sheet — updating it each month **overwrites** the
+  previous list. [YOU FILL IN: your chosen archive habit, e.g. "duplicate
+  the Classes tab and rename it to the month before saving"]
+- Each **student's individual exported Sheet/Doc** is a brand-new file,
+  created fresh every time they click "Create my Google Sheet/Doc." These
+  accumulate over time and are not automatically cleaned up.
+
+**Can two staff members update the class list at the same time?**
+Not safely — the last person to click "Save for all students" overwrites
+whatever the sheet currently has. [YOU FILL IN: your team's coordination
+plan, e.g. "only front desk updates the list, once a month."]
+
+**Who owns the Google Drive files this creates?**
+Whichever Google account deployed the Apps Script and owns the backend
+Sheet. [YOU FILL IN: confirm this is your program's account, not a
+personal one, before handoff — or document the transfer plan.]
+
+**How do we change the staff password?**
+Apps Script editor → Project Settings → Script Properties →
+`STAFF_PASSWORD`. Takes effect immediately, no redeploy needed. [YOU FILL
+IN: how often you'll rotate it / who has authority to change it.]
+
+**What if the newsletter paste-parser gets something wrong?**
+Expected — it's a shortcut, not a guarantee. Always review the table
+after parsing before saving. [YOU FILL IN: who's responsible for that
+review each month.]
+
+**What happens to last month's exported student Sheets/Docs?**
+Nothing automatic — they stay in Drive indefinitely with editable links.
+[YOU FILL IN: your cleanup cadence, e.g. quarterly review and deletion of
+old files.]
+
+## Technical / accessibility
+
+**Is this HIPAA compliant?**
+By design, the app never collects a name or identifying information, so
+there's no PHI in this system to protect — that's what keeps it out of
+HIPAA's technical requirements. See the HIPAA section in `README.md` for
+the full explanation, and the line where that stops being true (a
+counselor needing to see which specific student gave which answers).
+
+**Is this accessible (WCAG 2.2)?**
+Built with that as a first-class goal — see the Accessibility section of
+`README.md` for specifics. [YOU FILL IN: results of your own accessibility
+audit once you've run it, plus any fixes made as a result.]
+
+**Who do I contact if I find an accessibility or usability issue?**
+[YOU FILL IN]
+
+**Where's the source code / who maintains this?**
+[YOU FILL IN: link to the GitHub repo, and who to contact for changes.]
