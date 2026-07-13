@@ -9,7 +9,7 @@ A web application that assists in the complex matrix scheduling of hundreds of s
 ## GOALS
 
 - [x] Can a mini web app be built by Claud to tackle this classic scheduling problem?
-- [ ] Student builds personalized, anonymous schedule, either on their own or _through an appointment_ with Education Counselor (EC), that incorporates the Class Schedule (CS) Google Doc and the Outing & Workshops (OW) PDF.
+- [x] Student builds personalized, anonymous schedule, either on their own or _through an appointment_ with Education Counselor (EC), that incorporates the Class Schedule (CS) Google Doc and the Outing & Workshops (OW) PDF.
 - [x] Student can print created schedule, on their own or with help of member of staff!
 - [ ] Staff, front desk, inputs schedule into their electronic health records (EHR) system.
 - [ ] A complete adopted and incorporated system that manages First Come First Served (FCFS) signups for classes while allowing students to get a usable tool for the month in minutes. 
