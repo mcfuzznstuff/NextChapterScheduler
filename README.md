@@ -2,11 +2,11 @@
 
 _NOTE: This application was built with the assistance of AI, specifically Claude Sonnet 5 and ChatGPT various models over the course of several months of testing and iterating prompts. As the human Product Owner (PO) of the project, consider Claude the Software Engineer and ChatGPT a fellow PO to bounce ideas off of while also testing it's ability to do this process without the use of an application. I've also used Gemini to QA the prompts to narrow the questions; Claude and myself have also run some QA, so there has been a bit of initial hardening. If you run into any issues or would like the access to the chat logs for each, please email info@sw-bits.com. Thank you._
 
-## PURPOSE
+## 📝 PURPOSE
 
 A web application that assists in the complex matrix scheduling of hundreds of students across classes, outings, and workshops.
 
-## GOALS
+## ✅ GOALS
 
 - [x] Can a mini web app be built by Claud to tackle this classic scheduling problem?
 - [x] Student builds personalized, anonymous schedule, either on their own or _through an appointment_ with Education Counselor (EC), that incorporates the Class Schedule (CS) Google Doc and the Outing & Workshops (OW) PDF.
@@ -16,7 +16,7 @@ A web application that assists in the complex matrix scheduling of hundreds of s
 
 > - [ ] Staff can reproduce the schedules if lost. This requires at a very minimum a pair of Google Sheets or similar backend to manage the signup timings and other coding system matrix so as to not create mass amounts of duplication. This is a v1.2 at the very least because of that.
 
-## CHALLENGES
+## ✅ CHALLENGES
 
 **BLIND CHALLENGES GOING IN/ BLACK BOX**
 
@@ -44,12 +44,16 @@ A web application that assists in the complex matrix scheduling of hundreds of s
 
 > SOLUTION: Because I defined these standards up front, Claude has been doing an excellent job of at least by [The POUR Method](https://youtu.be/x1GqgMlkWIs?si=mgGNd0niReB-KKZG) standards meeting WGAC2.2.
 
-### KNOWN BUGS AND WORKAROUNDS
+### 🛑 KNOWN BUGS AND WORKAROUNDS
 
 - Using this app on mobile can be done if you're highly proficient with it's features, but please, NextChapter staff are not experts in this we recommend using a Desktop to complete this scheduling.
 - We're aware that once the two documents have been pasted the resulting table is nearly un readable, this is a bug for later iteration of the application that perhaps you won't even have to interact with. 🙂
 
-### ROADMAP AS OF V1.0
+### ⭐️ UNIQUE ADVANTAGE FOR "ADVANCED" USERS ⭐️
+
+- If students export to their a Google Doc and format into a live checklist format, not can they have a print copy, but essentially they can have a LIVE copy of their dialy COMPLETE CS/OW shedule! Again, add emoji's to add interest and modernization, fun, whimsy, and let's be honest a little accessibility for folks of low to no reading capability. 💪🏋️‍♀️📚🌟🎨
+
+### 🏁 ROADMAP AS OF V1.0 🏁
 
 This is a basic roadmap, to see a live roadmap, check out the Milestones and Issues within the project.
 
