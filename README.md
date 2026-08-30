@@ -40,9 +40,13 @@ A web application that assists in the complex matrix scheduling of hundreds of s
 > SOLUTION: Mostly doable, for the first two goals, completely capable, but for any database management through Google at least an non-enterprise account was needed to use AppScripts without a fee, and the opposite is true to host the site on GitHub pages. Both of those were top solution provided by Clause to get this app live and testing, what I have done, once Claude resolve the afore mentioned the window.print() function, is that I've just been copy and pasting the code directly from each result into a Google Site Embed, then testing each flow, making notes along the way to return to Claude.
 
 **CHALLENGES DURING DEPLOYMENT (PEOPLE SIDE)**
-- PROBLEM: Developing WGAC 2.2 HIPPA compliant code with an AI agent.
+- PROBLEM: Privacy & Data Handling that meets WCAG 2.2 HIPAA-compliant code with an AI agent.
 
-> SOLUTION: Because I defined these standards up front, Claude has been doing an excellent job of at least by [The POUR Method](https://youtu.be/x1GqgMlkWIs?si=mgGNd0niReB-KKZG) standards meeting WGAC2.2.
+> SOLUTION: Because I defined these standards up front, Claude has been doing an excellent job of at least by [The POUR Method](https://youtu.be/x1GqgMlkWIs?si=mgGNd0niReB-KKZG) standards meeting WGAC2.2. But we will explicitly be adding a Privacy Policy for this app with its own link. The language is as follows:
+
+- Privacy & Data Handling
+
+This application does not collect or transmit personally identifiable information, health information, registration information, or individual student schedules. User-entered information is processed locally in the user's browser and is not transmitted to an application server or external API.
 
 ### 🛑 KNOWN BUGS AND WORKAROUNDS
 
