@@ -1,7 +1,6 @@
 # FAQ — NextChapter Schedule Builder (v1.0)
 
-This is the version live in a test environment as of 7/13/2026: a single embedded page, no login required, no
-data saved anywhere outside the device it's used on.
+Last Update 8/30/2026: Classes are parsed from the monthly newsletter text that staff update in a separate process. **Nothing** in the app is ever sent anywhere (to the internet, an AI or otherwise) or a server -- everything lives in the users' browser's localStorage, so no personal data leaves the device.
 
 ## What this version does
 - Combines **two source documents after the user pastes them into the application**: the Daily Class Schedule

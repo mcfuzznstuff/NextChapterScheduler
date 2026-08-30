@@ -19,6 +19,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap');
 
 :root {
+    --gray: #DCDCDC;
   --paper: #EFF2ED;
   --paper-raised: #FFFFFF;
   --ink: #1F2E2B;
@@ -53,7 +54,7 @@ html { scroll-behavior: smooth; }
 body {
   margin: 0;
   font-family: 'Atkinson Hyperlegible', -apple-system, Segoe UI, sans-serif;
-  background: var(--paper);
+  background: var(--gray);
   color: var(--ink);
   font-size: 18px;
   line-height: 1.55;
@@ -63,6 +64,7 @@ body {
   max-width: var(--max-w);
   margin: 0 auto;
   padding: var(--space-3) var(--space-2) var(--space-4);
+    background: var(--paper);
 }
 
 /* Skip link */
@@ -339,14 +341,26 @@ footer.app-footer {
   <a class="skip-link" href="#app-root">Skip to main content</a>
   <div class="app-shell">
     <header class="top">
+        <nav style="background-color: #2F6F62; padding: 10px 20px; font-family: Calibri, sans-serif;">
+      <a href="https://www.wellpower.org/nextchapter-dashboard/" style="color:white">NC Dashboard</a> |
+      <a href="https://docs.google.com/document/d/e/2PACX-1vQMBsH_0N5TGu-jf4dn7LtcuKICADPAKnV8rYs9ENAGFJxMu-1-ycSgytiCAv9m9ojY1P86kuOyOXaS/pub" style="color:white">NC Class Schedule</a> |
+      <a href="https://sw-bits.com" style="color:white">SW Bits, Ltd.</a>
+    </nav>
       <h1>This Month's Schedule Builder</h1>
       <p class="tagline">Instructions: Click &ldquo;Start Here,&rdquo; button; each button becomes active as you complete the steps.<ol><li>Import this month's Class Schedules, Outings, and Workshops per the provided instructions below.</li><li>Scroll back to the top and click "Build Schedule," until then it's inactive.</li><li>Finally, answer 7 questions to build YOUR CUSTOMIZED activity checklist for the month.</li></ol></p>
     </header>
     <main id="app-root" aria-live="polite"></main>
     <footer class="app-footer">
-      <p>Nothing you enter here is sent anywhere (to the internet, an AI or otherwise) or saved outside this device and instance of usage.</p>
-      <p style="font-style: italic;">Please note that once you close this window or tab ALL information is lost! You can go back and edit your answers to get new schedules. A best practice is to export the result to Google Doc and turn into a LIVE check list you can have in your pocket and check off as classes happen and know exactly what's happening next based off 10 minutes effort!</p>
+      <p>Classes are parsed from the monthly newsletter text that
+   staff update in a separate process. Nothing here is
+   ever sent anywhere (to the internet, an AI or otherwise) or a server -- everything lives in this browser's
+   localStorage, so no personal data leaves the device.</p>
+      <!--<p style="font-style: italic;">Please note that once you close this window or tab ALL information is lost! You can go back and edit your answers to get new schedules. A best practice is to export the result to Google Doc and turn into a LIVE check list you can have in your pocket and check off as classes happen and know exactly what's happening next based off 10 minutes effort!</p>-->
       <p><a href="https://github.com/mcfuzznstuff/NextChapterScheduler/blob/962bdb5188cb66d9fc20da7f0fd749cfb234ecb9/FAQ%20%E2%80%94%20NextChapter%20Schedule%20Builder%20(v1.0).md">FAQ</a></p>
+    </footer>
+    <footer style="background-color: #2F6F62; padding: 10px 20px; font-family: Calibri, sans-serif;">
+        <p>Author: SW Bits, Ltd. 2026 | <a href="#" style="color:white">Accessibility</a></p>
+      <p>Further troubleshooting and accessibility information: <a href="mailto:info@sw-bits.com" style="color:white">info@sw-bits.com</a></p>
     </footer>
   </div>
   <script>
@@ -667,7 +681,7 @@ function renderStudentFlow() {
   if (state.classes.length === 0) {
     const banner = document.createElement('p');
     banner.className = 'banner danger';
-    banner.textContent = "This month's activities haven't been added yet. Go to \"This Month's Activities\" to add them.";
+    banner.textContent = "This month's activities haven't been added yet. Click the \"Start Here\"  button to add them.";
     wrap.appendChild(banner);
     return wrap;
   }
