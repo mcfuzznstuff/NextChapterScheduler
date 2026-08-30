@@ -1,1435 +1,1450 @@
-{\rtf1\ansi\ansicpg1252\cocoartf2513
-\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fnil\fcharset0 LucidaGrande;\f2\fnil\fcharset0 AppleColorEmoji;
-}
-{\colortbl;\red255\green255\blue255;}
-{\*\expandedcolortbl;;}
-\margl1440\margr1440\vieww10800\viewh8400\viewkind0
-\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+  <title>This Month's Schedule Builder</title>
+  <meta name="description" content="Build a personalized activity schedule from this month's workshops and outings.">
+  <style>
+  /* ============================================================
+   Design tokens
+   Paper: #EFF2ED (pale sage white)   Ink: #1F2E2B (deep forest-charcoal)
+   Primary: #2F6F62 (deep teal)       Accent: #C68A3E (warm amber)
+   Support: #6E93A0 (muted sky)       Success: #4F7A3D
+   Danger: #A13D2E
+   Type: Atkinson Hyperlegible (body + display) -- built for low vision,
+   which is why it's used everywhere rather than a separate display face.
+   ============================================================ */
 
-\f0\fs24 \cf0 <!-- There's boiler plate copied from a Duck Duck Go search for, "how to add a mini javascript app to my google website page?" and is edited with code from Claude. Please see the following link for more: https://github.com/mcfuzznstuff/NextChapterSchedule-v-1-0/tree/main -->\
-\
-\
-<!-- The Index.html file -->\
-<div>\
-<!DOCTYPE html>\
-<html lang="en">\
-<head>\
-  <meta charset="UTF-8">\
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">\
-  <title>This Month's Schedule Builder</title>\
-  <meta name="description" content="Build a personalized activity schedule from this month's workshops and outings.">\
-  <link rel="stylesheet" href="styles.css">\
-</head>\
-<body>\
-  <a class="skip-link" href="#app-root">Skip to main content</a>\
-  <div class="app-shell">\
-    <header class="top">\
-      <h1>This Month's Schedule Builder</h1>\
-            <p class="tagline">Instructions: Click \'93Start Here,\'94 button; each button becomes active as you complete the steps.<ol><li>Import this month's Class Schedules, Outings, and Workshops per the provided instructions below.</li><li>Scroll back to the top and click "Build Schedule," until then it's inactive.</li><li> Finally, answer 7 questions to build YOUR CUSTOMIZED activity checklist for the month.</li></ol></p>\
-    </header>\
-    <main id="app-root" aria-live="polite"></main>\
-    <footer class="app-footer">\
-      <p>Nothing you enter here is sent anywhere (to the internet, an AI or otherwise) or saved outside this device and instance of usage.</p><p style="font-style: italic;">Please note that once you close this window or tab ALL information is lost! You can go back and edit your answers to get new schedules. A best practice is to export the result to Google Doc and turn into a LIVE check list you can have in your pocket and check off as classes happen and know exactly what's happening next based off 10 minutes effort!</></p>\
-<p><a href="https://docs.google.com/document/d/1BYM6ntkR9SLRdG93gPDeu0XA4OVcCqaU-M8j8_wP2zI/edit?usp=sharing">FAQ</a></p>\
-    </footer>\
-  </div>\
-  <script src="NextChapterSchedulingApp_v1_0.js"></script>\
-</body>\
-</html>\
-<div>\
-<!-- Your App's CSS Styling -->\
-<style>\
-  /* ============================================================\
-   Design tokens\
-   Paper: #EFF2ED (pale sage white)   Ink: #1F2E2B (deep forest-charcoal)\
-   Primary: #2F6F62 (deep teal)       Accent: #C68A3E (warm amber)\
-   Support: #6E93A0 (muted sky)       Success: #4F7A3D\
-   Danger: #A13D2E\
-   Type: Atkinson Hyperlegible (body + display) -- built for low vision,\
-   which is why it's used everywhere rather than a separate display face.\
-   ============================================================ */\
-\
-@import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap');\
-\
-:root \{\
-  --paper: #EFF2ED;\
-  --paper-raised: #FFFFFF;\
-  --ink: #1F2E2B;\
-  --ink-soft: #45564F;\
-  --primary: #2F6F62;\
-  --primary-dark: #234F45;\
-  --accent: #C68A3E;\
-  --accent-dark: #96692C;\
-  --support: #6E93A0;\
-  --success: #3F6B33;\
-  --success-bg: #E4EEDD;\
-  --danger: #A13D2E;\
-  --danger-bg: #F6E3DF;\
-  --focus-ring: #1450A3;\
-  --radius: 12px;\
-  --max-w: 720px;\
-  --space-1: 8px;\
-  --space-2: 16px;\
-  --space-3: 24px;\
-  --space-4: 40px;\
-\}\
-\
-* \{ box-sizing: border-box; \}\
-\
-html \{ scroll-behavior: smooth; \}\
-\
-@media (prefers-reduced-motion: reduce) \{\
-  html \{ scroll-behavior: auto; \}\
-  * \{ animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; \}\
-\}\
-\
-body \{\
-  margin: 0;\
-  font-family: 'Atkinson Hyperlegible', -apple-system, Segoe UI, sans-serif;\
-  background: var(--paper);\
-  color: var(--ink);\
-  font-size: 18px;\
-  line-height: 1.55;\
-\}\
-\
-.app-shell \{\
-  max-width: var(--max-w);\
-  margin: 0 auto;\
-  padding: var(--space-3) var(--space-2) var(--space-4);\
-\}\
-\
-/* Skip link */\
-.skip-link \{\
-  position: absolute;\
-  left: -999px;\
-  top: 0;\
-  background: var(--primary);\
-  color: white;\
-  padding: var(--space-1) var(--space-2);\
-  z-index: 100;\
-  border-radius: 0 0 8px 0;\
-\}\
-.skip-link:focus \{\
-  left: 0;\
-\}\
-\
-/* Focus visibility -- never suppressed */\
-a:focus-visible, button:focus-visible, input:focus-visible,\
-select:focus-visible, textarea:focus-visible, [tabindex]:focus-visible \{\
-  outline: 3px solid var(--focus-ring);\
-  outline-offset: 3px;\
-\}\
-\
-header.top \{\
-  text-align: center;\
-  margin-bottom: var(--space-3);\
-\}\
-header.top h1 \{\
-  font-size: 1.6rem;\
-  margin: 0 0 4px;\
-  color: var(--primary-dark);\
-\}\
-header.top p.tagline \{\
-  margin: 0;\
-  color: var(--ink-soft);\
-\}\
-\
-nav.mode-switch \{\
-  display: flex;\
-  justify-content: center;\
-  gap: var(--space-1);\
-  margin-bottom: var(--space-3);\
-  flex-wrap: wrap;\
-\}\
-nav.mode-switch button \{\
-  background: var(--paper-raised);\
-  border: 2px solid var(--primary);\
-  color: var(--primary-dark);\
-  border-radius: 999px;\
-  padding: 10px 20px;\
-  font-size: 1rem;\
-  font-family: inherit;\
-  cursor: pointer;\
-  min-height: 44px;\
-\}\
-nav.mode-switch button[aria-current="true"] \{\
-  background: var(--primary);\
-  color: white;\
-\}\
-\
-.card \{\
-  background: var(--paper-raised);\
-  border-radius: var(--radius);\
-  padding: var(--space-3);\
-  box-shadow: 0 1px 3px rgba(31,46,43,0.08);\
-  margin-bottom: var(--space-3);\
-\}\
-\
-/* Progress steps */\
-.progress \{\
-  display: flex;\
-  align-items: center;\
-  gap: 6px;\
-  margin-bottom: var(--space-3);\
-  list-style: none;\
-  padding: 0;\
-  justify-content: center;\
-  flex-wrap: wrap;\
-\}\
-.progress li \{\
-  width: 14px;\
-  height: 14px;\
-  border-radius: 50%;\
-  background: #D6DDD3;\
-\}\
-.progress li.done \{ background: var(--primary); \}\
-.progress li.current \{ background: var(--accent); outline: 3px solid #EAD3AC; \}\
-.progress-label \{\
-  text-align: center;\
-  color: var(--ink-soft);\
-  font-size: 0.95rem;\
-  margin-bottom: var(--space-2);\
-\}\
-\
-fieldset \{\
-  border: none;\
-  margin: 0 0 var(--space-3);\
-  padding: 0;\
-\}\
-legend, .question-title \{\
-  font-size: 1.3rem;\
-  font-weight: 700;\
-  color: var(--primary-dark);\
-  margin-bottom: var(--space-2);\
-  padding: 0;\
-\}\
-.hint \{\
-  color: var(--ink-soft);\
-  font-size: 0.95rem;\
-  margin: -8px 0 var(--space-2);\
-\}\
-\
-.choice-grid \{\
-  display: grid;\
-  gap: 10px;\
-\}\
-.choice \{\
-  display: flex;\
-  align-items: center;\
-  gap: 12px;\
-  border: 2px solid #C9D2C6;\
-  border-radius: var(--radius);\
-  padding: 14px 16px;\
-  cursor: pointer;\
-  background: var(--paper-raised);\
-  min-height: 44px;\
-\}\
-.choice:hover \{ border-color: var(--primary); \}\
-.choice input \{ width: 22px; height: 22px; flex-shrink: 0; \}\
-.choice.selected \{\
-  border-color: var(--primary);\
-  background: #E7F0EC;\
-\}\
-.choice label \{ cursor: pointer; flex: 1; \}\
-\
-.exclusion-row \{\
-  display: flex;\
-  align-items: center;\
-  flex-wrap: wrap;\
-  gap: 10px;\
-  border: 2px solid #C9D2C6;\
-  border-radius: var(--radius);\
-  padding: 12px 16px;\
-  margin-bottom: 10px;\
-  background: var(--paper-raised);\
-\}\
-.exclusion-row select,\
-.exclusion-row input[type="time"] \{\
-  flex: 1 1 120px;\
-  min-width: 110px;\
-  font-family: inherit;\
-  font-size: 1rem;\
-  padding: 8px 10px;\
-  border: 2px solid #C9D2C6;\
-  border-radius: 8px;\
-  min-height: 44px;\
-\}\
-.exclusion-row span \{ color: var(--ink-soft); \}\
-\
-textarea, input[type="text"] \{\
-  width: 100%;\
-  font-family: inherit;\
-  font-size: 1rem;\
-  padding: 12px;\
-  border: 2px solid #C9D2C6;\
-  border-radius: 8px;\
-  min-height: 44px;\
-\}\
-textarea \{ min-height: 90px; \}\
-\
-.btn-row \{\
-  display: flex;\
-  justify-content: space-between;\
-  gap: var(--space-2);\
-  margin-top: var(--space-3);\
-  flex-wrap: wrap;\
-\}\
-button.btn \{\
-  font-family: inherit;\
-  font-size: 1.05rem;\
-  font-weight: 700;\
-  padding: 14px 26px;\
-  border-radius: 999px;\
-  border: 2px solid var(--primary);\
-  min-height: 48px;\
-  cursor: pointer;\
-\}\
-button.btn.primary \{ background: var(--primary); color: white; \}\
-button.btn.primary:hover \{ background: var(--primary-dark); \}\
-button.btn.secondary \{ background: transparent; color: var(--primary-dark); \}\
-button.btn.secondary:hover \{ background: #E7F0EC; \}\
-button.btn:disabled \{ opacity: 0.5; cursor: not-allowed; \}\
-\
-/* Results / checklist */\
-.result-item \{\
-  display: flex;\
-  gap: 14px;\
-  align-items: flex-start;\
-  border: 2px solid #C9D2C6;\
-  border-radius: var(--radius);\
-  padding: 16px;\
-  margin-bottom: 12px;\
-\}\
-.result-item input[type="checkbox"] \{ width: 26px; height: 26px; margin-top: 4px; flex-shrink: 0; \}\
-.result-item .r-title \{ font-weight: 700; font-size: 1.1rem; \}\
-.result-item .r-meta \{ color: var(--ink-soft); font-size: 0.95rem; \}\
-.result-item .r-highlight \{ color: var(--ink); font-weight: 600; font-size: 1rem; margin-top: 2px; \}\
-.result-item .r-more \{ margin-top: 6px; \}\
-.result-item .r-more summary \{ cursor: pointer; color: var(--support); font-size: 0.9rem; font-weight: 700; min-height: 24px; \}\
-.result-item .r-more summary:hover \{ color: var(--primary-dark); \}\
-.result-item .r-more .r-meta \{ margin-top: 6px; \}\
-.badge \{\
-  display: inline-block;\
-  background: var(--accent);\
-  color: #fff;\
-  border-radius: 999px;\
-  padding: 2px 12px;\
-  font-size: 0.85rem;\
-  font-weight: 700;\
-  margin-top: 6px;\
-\}\
-\
-.banner \{\
-  border-radius: var(--radius);\
-  padding: var(--space-2);\
-  margin-bottom: var(--space-3);\
-\}\
-.banner.info \{ background: #E4EAF0; color: #1F3A50; \}\
-.banner.success \{ background: var(--success-bg); color: var(--success); \}\
-.banner.danger \{ background: var(--danger-bg); color: var(--danger); \}\
-\
-table.admin-table \{\
-  width: 100%;\
-  border-collapse: collapse;\
-  margin-top: var(--space-2);\
-\}\
-table.admin-table th, table.admin-table td \{\
-  text-align: left;\
-  padding: 10px;\
-  border-bottom: 1px solid #D6DDD3;\
-  vertical-align: top;\
-\}\
-table.admin-table th \{ color: var(--ink-soft); font-weight: 700; font-size: 0.9rem; \}\
-\
-.pill-btn \{\
-  background: transparent;\
-  border: 2px solid var(--danger);\
-  color: var(--danger);\
-  border-radius: 999px;\
-  padding: 6px 14px;\
-  font-family: inherit;\
-  cursor: pointer;\
-  min-height: 40px;\
-\}\
-\
-label.field-label \{ display: block; font-weight: 700; margin: var(--space-2) 0 6px; \}\
-\
-@media print \{\
-  nav.mode-switch, .no-print, .btn-row, .skip-link \{ display: none !important; \}\
-  body \{ background: white; font-size: 14pt; \}\
-  .card \{ box-shadow: none; border: 1px solid #999; \}\
-\}\
-\
-footer.app-footer \{\
-  text-align: center;\
-  color: var(--ink-soft);\
-  font-size: 0.85rem;\
-  margin-top: var(--space-4);\
-\}\
-</style>\
-\
-<!-- Your App's JavaScript Logic -->\
-<script>\
-/* ==========================================================\
-   DATA MODEL\
-   Classes are parsed from the monthly newsletter text that\
-   staff paste in (or entered/fixed by hand). Nothing here is\
-   ever sent to a server -- everything lives in this browser's\
-   localStorage, so no personal data leaves the device.\
-   ========================================================== */\
-\
-const STORAGE_KEY = 'rehabScheduler.classes.v2';\
-const NEWSLETTER_URL = 'https://docs.google.com/document/d/e/2PACX-1vQMBsH_0N5TGu-jf4dn7LtcuKICADPAKnV8rYs9ENAGFJxMu-1-ycSgytiCAv9m9ojY1P86kuOyOXaS/pub';\
-const DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'];\
-const DAY_NAMES = \{ Mon: 'Monday', Tue: 'Tuesday', Wed: 'Wednesday', Thu: 'Thursday', Fri: 'Friday' \};\
-const PERIODS = ['Morning', 'Afternoon'];\
-\
-// The 10 priorities the student ranks, in the order given by the program.\
-const THEMES = ['Gentle movement', 'Art', 'Nature/animals', 'Cooking', 'Socializing', 'Volunteering', 'Learning new skills', 'Music', 'Employment', 'Education (high school or college)'];\
-\
-// Best-effort keyword tagging so a pasted newsletter doesn't need staff to\
-// hand-tag every class. Staff can always fix a class's tags in the review\
-// table after import -- this is a starting point, not a guarantee.\
-const THEME_KEYWORDS = \{\
-  'Gentle movement': ['yoga', 'tai chi', 'qi gong', 'walk', 'stretch', 'chair exercise', 'sassy seat', 'gentle', 'meditation', 'mindfulness', 'therapy pool', 'sauna', 'pool', 'gym', 'fitness', 'wellness', 'workout', 'exercise', 'nidra'],\
-  'Art': ['art', 'craft', 'paint', 'photography', 'felting', 'cross stitch', 'embroidery', 'mask', 'drawing', 'illustrat'],\
-  'Nature/animals': ['animal', 'garden', 'outdoor', 'nature', 'pet', 'zoo'],\
-  'Cooking': ['cook', 'culinary', 'nutrition', 'protein', 'recipe', 'baking', 'ice cream'],\
-  'Socializing': ['social', 'bingo', 'trivia', 'ice cream', 'chess', 'game', 'puzzle', 'mic', 'dance', 'forum'],\
-  'Volunteering': ['volunteer', 'community service'],\
-  'Learning new skills': ['computer', 'typing', 'spanish', 'skill', 'workshop', 'photography'],\
-  'Music': ['music', 'harmonica', 'piano', 'playlist', 'karaoke', 'song', 'open mic', 'band'],\
-  'Employment': ['job', 'resume', 'interview', 'employment', 'career', 'money matters', 'leadership'],\
-  'Education (high school or college)': ['ged', 'math', 'reading', 'writing', 'study', 'tutoring', 'academic', 'school', 'computer']\
-\};\
-\
-// Structured energy/mobility options (checkboxes, not free text) so we can\
-// reliably flag classes -- free text can't be safely auto-matched.\
-const ENERGY_OPTIONS = [\
-  \{ id: 'gentle_only', label: 'I need gentle activities only', riskKeywords: ['fitness', 'resistance', 'workout', 'weight', 'sport', 'bowling', 'pickleball', 'dance'] \},\
-  \{ id: 'limited_walking', label: 'Light walking is okay, but not long distances', riskKeywords: ['walk', 'hike', 'pickleball', 'bowling'] \},\
-  \{ id: 'seated_breaks', label: 'I need seated break options during activities', riskKeywords: ['standing', 'gym'] \},\
-  \{ id: 'no_lifting', label: "I'd like to avoid lifting or resistance activities", riskKeywords: ['lifting', 'resistance', 'weight'] \},\
-  \{ id: 'no_restrictions', label: 'No restrictions', riskKeywords: [] \}\
-];\
-\
-function loadClasses() \{\
-  try \{\
-    const raw = localStorage.getItem(STORAGE_KEY);\
-    if (!raw) return [];\
-    return JSON.parse(raw);\
-  \} catch (e) \{ return []; \}\
-\}\
-function saveClasses(list) \{ localStorage.setItem(STORAGE_KEY, JSON.stringify(list)); \}\
-function cryptoId() \{ return 'c_' + Math.random().toString(36).slice(2, 10); \}\
-function splitKeywords(text) \{\
-  return (text || '').split(',').map(s => s.trim().toLowerCase()).filter(Boolean);\
-\}\
-function textMatchesAny(text, keywords) \{\
-  const lower = (text || '').toLowerCase();\
-  return keywords.some(k => k && lower.includes(k));\
-\}\
-function autoTagThemes(title, description) \{\
-  const text = (title + ' ' + description).toLowerCase();\
-  return THEMES.filter(theme => (THEME_KEYWORDS[theme] || []).some(kw => text.includes(kw)));\
-\}\
-\
-/* ==========================================================\
-   TIME PARSING\
-   ========================================================== */\
-function toMinutes(hour, minute, meridiem) \{\
-  let h = hour % 12;\
-  if (meridiem === 'PM') h += 12;\
-  return h * 60 + (minute || 0);\
-\}\
-function parseTimeRange(raw) \{\
-  const m = raw.match(/^(\\d\{1,2\})(?::(\\d\{2\}))?\\s*(AM|PM)?\\s*[-\'96\'97]\\s*(\\d\{1,2\})(?::(\\d\{2\}))?\\s*(AM|PM)/i);\
-  if (!m) return null;\
-  let [, sh, sm, sMer, eh, em, eMer] = m;\
-  eMer = eMer.toUpperCase();\
-  sMer = sMer ? sMer.toUpperCase() : eMer; // "9-10 AM" -> start inherits end's AM/PM\
-  const startMin = toMinutes(parseInt(sh, 10), parseInt(sm || '0', 10), sMer);\
-  const endMin = toMinutes(parseInt(eh, 10), parseInt(em || '0', 10), eMer);\
-  return \{ startMin, endMin, label: raw.trim() \};\
-\}\
-function minutesToLabel(min) \{\
-  let h = Math.floor(min / 60), mm = min % 60;\
-  const mer = h >= 12 ? 'PM' : 'AM';\
-  h = h % 12; if (h === 0) h = 12;\
-  return h + (mm ? ':' + String(mm).padStart(2, '0') : '') + ' ' + mer;\
-\}\
-function parseSingleTime(raw) \{\
-  const m = raw.match(/^(\\d\{1,2\})(?::(\\d\{2\}))?\\s*(AM|PM)/i);\
-  if (!m) return null;\
-  const [, h, mm, mer] = m;\
-  const startMin = toMinutes(parseInt(h, 10), parseInt(mm || '0', 10), mer.toUpperCase());\
-  return \{ startMin, endMin: startMin + 60, label: raw.trim() \}; // defaults to a 1-hour block; staff can adjust in the table\
-\}\
-\
-/* ==========================================================\
-   NEWSLETTER PARSER (plain text pasted from the published doc)\
-   Handles lines like:\
-   "*9-10 AM | Health and Wellness Workout (INFO) | Jessica | Fitness Rm"\
-   followed by description line(s), grouped under a day heading\
-   like "MONDAY".\
-   ========================================================== */\
-function parseNewsletterText(raw) \{\
-  const lines = raw.split(/\\r?\\n/).map(l => l.trim()).filter(Boolean);\
-  const dayHeaderRe = /^(MONDAY|TUESDAY|WEDNESDAY|THURSDAY|FRIDAY)\\b/i;\
-  const entryRe = /^([*#]?)\\s*([0-9:. ]+(?:AM|PM)?\\s*[-\'96\'97]\\s*[0-9:. ]+(?:AM|PM))\\s*\\|\\s*(.*)$/i;\
-  // fallback for lines with only a start time, no end time (e.g. "*11 AM | Class Name | ...")\
-  const singleTimeRe = /^([*#]?)\\s*(\\d\{1,2\}(?::\\d\{2\})?\\s*(?:AM|PM))\\s*\\|\\s*(.*)$/i;\
-  const dayAbbrev = \{ MONDAY: 'Mon', TUESDAY: 'Tue', WEDNESDAY: 'Wed', THURSDAY: 'Thu', FRIDAY: 'Fri' \};\
-\
-  let currentDay = null;\
-  const results = [];\
-  let skipped = 0;\
-  let lastEntry = null;\
-\
-  for (const line of lines) \{\
-    const dayMatch = line.match(dayHeaderRe);\
-    if (dayMatch) \{\
-      currentDay = dayAbbrev[dayMatch[1].toUpperCase()];\
-      lastEntry = null;\
-      continue;\
-    \}\
-    const entryMatch = line.match(entryRe);\
-    const singleMatch = !entryMatch && line.match(singleTimeRe);\
-    if ((entryMatch || singleMatch) && currentDay) \{\
-      const [, prefix, timeRaw, rest] = entryMatch || singleMatch;\
-      const time = entryMatch ? parseTimeRange(timeRaw) : parseSingleTime(timeRaw);\
-      const parts = rest.split('|').map(p => p.replace(/\\(?\\s*INFO\\s*\\)?/gi, '').trim()).filter(Boolean);\
-      const title = parts[0] || 'Untitled activity';\
-      const instructor = parts[1] || '';\
-      const location = parts[2] || '';\
-      const mode = prefix === '*' ? 'in-person' : prefix === '#' ? 'hybrid' : 'online';\
-      if (!time) \{ skipped++; continue; \}\
-      lastEntry = \{\
-        id: cryptoId(), day: currentDay, startMin: time.startMin, endMin: time.endMin,\
-        timeLabel: time.label, title, instructor, location, mode, description: '',\
-        themes: []\
-      \};\
-      results.push(lastEntry);\
-    \} else if (lastEntry) \{\
-      // continuation / description line\
-      lastEntry.description = (lastEntry.description ? lastEntry.description + ' ' : '') + line;\
-    \}\
-  \}\
-  results.forEach(r => \{ r.themes = autoTagThemes(r.title, r.description); \});\
-  return \{ classes: results, skipped \};\
-\}\
-\
-/* ==========================================================\
-   OUTINGS & WORKSHOPS PARSER (for the separate PDF newsletter)\
-   Different document, different shape: one-off dated events in a\
-   running paragraph rather than a day-by-day list with "|" columns,\
-   so it needs its own parser rather than reusing the one above.\
-   ========================================================== */\
-const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];\
-\
-function parseAmPmTime(raw) \{\
-  const m = raw.match(/(\\d\{1,2\})(?::(\\d\{2\}))?\\s*(a\\.?m\\.?|p\\.?m\\.?)?\\s*[-\\u2013\\u2014]\\s*(\\d\{1,2\})(?::(\\d\{2\}))?\\s*(a\\.?m\\.?|p\\.?m\\.?)/i);\
-  if (!m) return null;\
-  let [, sh, sm, sMer, eh, em, eMer] = m;\
-  eMer = eMer.replace(/\\./g, '').toUpperCase();\
-  sMer = sMer ? sMer.replace(/\\./g, '').toUpperCase() : eMer;\
-  const startMin = toMinutes(parseInt(sh, 10), parseInt(sm || '0', 10), sMer);\
-  const endMin = toMinutes(parseInt(eh, 10), parseInt(em || '0', 10), eMer);\
-  return \{ startMin, endMin, label: m[0].trim(), matchedText: m[0] \};\
-\}\
-\
-const OUTING_WORKSHOP_MARKER = 'ZZZWORKSHOPSECTIONZZZ';\
-function cleanOutingsNoise(text) \{\
-  return text\
-    .replace(/\\d*Succeed Connection\\s*\\d*/gi, ' ')\
-    .replace(/NextChapter Newsletter/gi, ' ')\
-    .replace(new RegExp('\\\\b(?:' + MONTHS.join('|') + ')\\\\s+Outings\\\\b', 'gi'), ' ')\
-    .replace(new RegExp('\\\\b(?:' + MONTHS.join('|') + ')\\\\s+Workshops\\\\b', 'gi'), ' ' + OUTING_WORKSHOP_MARKER + ' ')\
-    .replace(/(?:[A-Z]\\s+)\{3,\}\\d(?:\\s*\\d)\{2,\}/g, ' ') // spaced-out "J U L Y 2 0 2 6" style headers\
-    .replace(/Outings Continued:/gi, ' ')\
-    .replace(/ATTENTION:[\\s\\S]*?Thank you\\./i, ' ')\
-    .replace(/\\s+/g, ' ')\
-    .trim();\
-\}\
-\
-const OUTING_LOCATIONS = [/Sally's Caf[e\\u00e9]/i, /Art Studio/i, /Computer Lab \\d+/i, /Room \\d+/i, /Lab \\d+/i];\
-function extractOutingLocation(text) \{\
-  for (const re of OUTING_LOCATIONS) \{\
-    const m = text.match(re);\
-    if (m) return \{ location: m[0], rest: text.replace(re, '').trim() \};\
-  \}\
-  return \{ location: '', rest: text \};\
-\}\
-\
-// Facilitator names are short, capitalized tokens, optionally joined by\
-// ",", "and", or "&" -- bounding the match this way (rather than grabbing\
-// everything to the end of the details blob) is what stops it from\
-// swallowing the next event's title into this event's facilitator field.\
-const OUTING_NAME_TOKEN = "[A-Z][a-zA-Z']+(?:\\\\s[A-Z]\\\\.)?";\
-const OUTING_FACILITATOR_RE = new RegExp('Facilitators?:\\\\s*(' + OUTING_NAME_TOKEN + '(?:\\\\s*(?:,|and|&)\\\\s*' + OUTING_NAME_TOKEN + ')\{0,3\})', 'i');\
-\
-function parseOutingsText(raw) \{\
-  const text = cleanOutingsNoise(raw);\
-  const workshopsBoundaryIdx = text.indexOf(OUTING_WORKSHOP_MARKER);\
-  const monthPattern = MONTHS.join('|');\
-  const dateGroupRe = new RegExp('(' + monthPattern + ')\\\\s+(\\\\d\{1,2\}(?:\\\\s*,\\\\s*\\\\d\{1,2\})*(?:\\\\s*&\\\\s*\\\\d\{1,2\})?)\\\\s*\\\\((Mon|Tue|Wed|Thu|Fri|Sat|Sun)\\\\w*\\\\)', 'gi');\
-\
-  const matches = [...text.matchAll(dateGroupRe)];\
-  const results = [];\
-  let skipped = 0;\
-  let cursor = 0;\
-\
-  for (let idx = 0; idx < matches.length; idx++) \{\
-    const m = matches[idx];\
-    const month = m[1];\
-    const dayNums = m[2].split(/[,&]/).map(s => s.trim()).filter(Boolean);\
-    const dayAbbrevRaw = m[3].slice(0, 3);\
-    const dayAbbrev = DAYS.find(d => d.toLowerCase() === dayAbbrevRaw.toLowerCase());\
-\
-    const title = text.slice(cursor, m.index).replace(OUTING_WORKSHOP_MARKER, '').trim();\
-    const isWorkshop = workshopsBoundaryIdx >= 0 && m.index > workshopsBoundaryIdx;\
-    const afterDate = text.slice(m.index + m[0].length);\
-    const time = parseAmPmTime(afterDate);\
-    if (!time || !dayAbbrev) \{ skipped++; cursor = m.index + m[0].length; continue; \}\
-\
-    const nextMatch = matches[idx + 1];\
-    const searchLimit = nextMatch ? nextMatch.index : text.length;\
-    const timeEndIdx = m.index + m[0].length + afterDate.indexOf(time.matchedText) + time.matchedText.length;\
-    const detailsBlob = text.slice(timeEndIdx, searchLimit);\
-\
-    const facMatch = detailsBlob.match(OUTING_FACILITATOR_RE);\
-    const facilitator = facMatch ? facMatch[1].trim() : '';\
-    const notesRaw = facMatch ? detailsBlob.slice(0, facMatch.index).trim() : detailsBlob.trim();\
-    const \{ location, rest: description \} = extractOutingLocation(notesRaw);\
-    const cleanDescription = description\
-      .replace(/\\d+\\s*Spots?\\s*(?:&\\s*\\w+\\s*)?available/i, '')\
-      .replace(/Seat limit(?:ation)?s?:\\s*\\d+/i, '')\
-      .trim();\
-\
-    // advance cursor to just past the facilitator match (not to the next\
-    // date pattern) so the NEXT entry's title starts in the right place\
-    cursor = facMatch ? timeEndIdx + facMatch.index + facMatch[0].length : searchLimit;\
-\
-    dayNums.forEach(dayNum => \{\
-      const entryTitle = title || (isWorkshop ? 'Untitled workshop' : 'Untitled outing');\
-      results.push(\{\
-        id: cryptoId(),\
-        title: entryTitle,\
-        date: month + ' ' + dayNum,\
-        day: dayAbbrev,\
-        startMin: time.startMin,\
-        endMin: time.endMin,\
-        timeLabel: time.label,\
-        location,\
-        instructor: facilitator,\
-        description: cleanDescription,\
-        mode: 'in-person',\
-        isOuting: true,\
-        kind: isWorkshop ? 'workshop' : 'outing',\
-        themes: autoTagThemes(entryTitle, cleanDescription)\
-      \});\
-    \});\
-  \}\
-\
-  return \{ classes: results, skipped \};\
-\}\
-\
-/* ==========================================================\
-   STUDENT QUESTIONS\
-   ========================================================== */\
-const QUESTIONS = [\
-  \{ id: 'days', title: 'Number of days', prompt: 'How many days per week would you like to attend this month?', hint: "Some of these can be half-days (just mornings or just afternoons) -- let front desk know when you sign up.", type: 'single', options: ['1', '2', '3', '4', '5 (every weekday)'] \},\
-  \{ id: 'times', title: 'Preferred times', prompt: 'What times of day work best for you?', type: 'multi', options: ['Mornings', 'Afternoons', 'All day (mornings and afternoons)'] \},\
-  \{ id: 'unavailable', title: 'Not available', prompt: "Are there any days or times you're NOT available?", type: 'exclusions' \},\
-  \{ id: 'energy', title: 'Energy & mobility', prompt: 'Do you have any energy or mobility needs we should plan around?', type: 'energy' \},\
-  \{ id: 'priorities', title: 'Your priorities', prompt: 'Put these in the order that matters most to you.', hint: 'Most important at the top. Use the arrows to reorder.', type: 'rank', options: THEMES \},\
-  \{ id: 'mustInclude', title: 'Always include', prompt: "Is there anything you'd like to make sure is on your schedule, if it's offered this month?", hint: 'A few words separated by commas -- we\\'ll do our best to fit a match in (for example: Chess Club, Qi Gong).', type: 'text' \},\
-  \{ id: 'hardExclude', title: 'Hard exclusions', prompt: "Any topics to skip entirely? We won't schedule these no matter what -- we'll leave that time open instead.", hint: 'A few words separated by commas (for example: clay masks, poetry, reading).', type: 'text' \}\
-];\
-\
-/* ==========================================================\
-   APP STATE + ROUTER\
-   ========================================================== */\
-const state = \{\
-  mode: 'student',\
-  step: 0,\
-  answers: \{ priorities: THEMES.slice() \},\
-  classes: loadClasses(),\
-  schedule: null\
-\};\
-\
-const root = document.getElementById('app-root');\
-\
-function render() \{\
-  root.innerHTML = '';\
-  root.appendChild(renderModeSwitch());\
-  if (state.mode === 'student') root.appendChild(renderStudentFlow());\
-  else root.appendChild(renderStaffFlow());\
-\}\
-\
-function renderModeSwitch() \{\
-  const nav = document.createElement('nav');\
-  nav.className = 'mode-switch no-print';\
-  nav.setAttribute('aria-label', "Choose who is using this app");\
-  nav.innerHTML = `\
-    <button aria-current="$\{state.mode === 'staff'\}" data-mode="staff">Start Here</button>\
-    <button aria-current="$\{state.mode === 'student'\}" data-mode="student">Build Month's Schedule</button>\
-  `;\
-  nav.querySelectorAll('button').forEach(btn => \{\
-    btn.addEventListener('click', () => \{ state.mode = btn.dataset.mode; state.step = 0; render(); \});\
-  \});\
-  return nav;\
-\}\
-\
-/* ---------------- STUDENT FLOW ---------------- */\
-function renderStudentFlow() \{\
-  const wrap = document.createElement('div');\
-  if (state.classes.length === 0) \{\
-    const banner = document.createElement('p');\
-    banner.className = 'banner danger';\
-    banner.textContent = "This month's activities haven't been added yet. Go to \\"This Month's Activities\\" to add them.";\
-    wrap.appendChild(banner);\
-    return wrap;\
-  \}\
-  const totalSteps = QUESTIONS.length + 1;\
-  if (state.step < QUESTIONS.length) \{\
-    wrap.appendChild(renderProgress(state.step, totalSteps, QUESTIONS[state.step].title + ' (' + (state.step + 1) + ' of ' + QUESTIONS.length + ')'));\
-    wrap.appendChild(renderQuestionCard(QUESTIONS[state.step]));\
-  \} else \{\
-    wrap.appendChild(renderProgress(totalSteps - 1, totalSteps, 'Your schedule'));\
-    wrap.appendChild(renderResultsCard());\
-  \}\
-  return wrap;\
-\}\
-\
-function renderProgress(current, total, label) \{\
-  const container = document.createElement('div');\
-  const ul = document.createElement('ul');\
-  ul.className = 'progress';\
-  ul.setAttribute('role', 'presentation');\
-  for (let i = 0; i < total; i++) \{\
-    const li = document.createElement('li');\
-    if (i < current) li.className = 'done'; else if (i === current) li.className = 'current';\
-    ul.appendChild(li);\
-  \}\
-  const p = document.createElement('p');\
-  p.className = 'progress-label';\
-  p.textContent = label;\
-  container.appendChild(ul); container.appendChild(p);\
-  return container;\
-\}\
-\
-function renderQuestionCard(q) \{\
-  const card = document.createElement('section');\
-  card.className = 'card';\
-  const fs = document.createElement('fieldset');\
-  const legend = document.createElement('legend');\
-  legend.id = 'q-title'; legend.tabIndex = -1; legend.textContent = q.prompt;\
-  fs.appendChild(legend);\
-  if (q.hint) \{ const hint = document.createElement('p'); hint.className = 'hint'; hint.textContent = q.hint; fs.appendChild(hint); \}\
-\
-  if (q.type === 'text') fs.appendChild(renderTextQuestion(q));\
-  else if (q.type === 'single' || q.type === 'multi') fs.appendChild(renderChoiceQuestion(q));\
-  else if (q.type === 'rank') fs.appendChild(renderRankQuestion(q));\
-  else if (q.type === 'exclusions') fs.appendChild(renderExclusionsQuestion(q));\
-  else if (q.type === 'energy') fs.appendChild(renderEnergyQuestion(q));\
-\
-  card.appendChild(fs);\
-  card.appendChild(renderStudentNav());\
-  return card;\
-\}\
-\
-function renderTextQuestion(q) \{\
-  const ta = document.createElement('textarea');\
-  ta.setAttribute('aria-label', q.prompt);\
-  ta.value = state.answers[q.id] || '';\
-  ta.addEventListener('input', () => \{ state.answers[q.id] = ta.value; \});\
-  return ta;\
-\}\
-\
-function renderChoiceQuestion(q) \{\
-  const grid = document.createElement('div');\
-  grid.className = 'choice-grid';\
-  const inputType = q.type === 'multi' ? 'checkbox' : 'radio';\
-  const current = state.answers[q.id] || (q.type === 'multi' ? [] : null);\
-  q.options.forEach((opt, idx) => \{\
-    const row = document.createElement('div');\
-    const isSelected = q.type === 'multi' ? current.includes(opt) : current === opt;\
-    row.className = 'choice' + (isSelected ? ' selected' : '');\
-    const inputId = q.id + '-' + idx;\
-    const input = document.createElement('input');\
-    input.type = inputType; input.name = q.id; input.id = inputId; input.value = opt; input.checked = isSelected;\
-    input.addEventListener('change', () => \{\
-      if (q.type === 'multi') \{\
-        const list = new Set(state.answers[q.id] || []);\
-        if (input.checked) list.add(opt); else list.delete(opt);\
-        state.answers[q.id] = Array.from(list);\
-      \} else \{ state.answers[q.id] = opt; \}\
-      render();\
-      document.getElementById(inputId)?.focus();\
-    \});\
-    const label = document.createElement('label'); label.htmlFor = inputId; label.textContent = opt;\
-    row.appendChild(input); row.appendChild(label); grid.appendChild(row);\
-  \});\
-  return grid;\
-\}\
-\
-function renderEnergyQuestion(q) \{\
-  const wrap = document.createElement('div');\
-  const grid = document.createElement('div');\
-  grid.className = 'choice-grid';\
-  const current = state.answers.energy || [];\
-  ENERGY_OPTIONS.forEach((opt, idx) => \{\
-    const row = document.createElement('div');\
-    const isSelected = current.includes(opt.id);\
-    row.className = 'choice' + (isSelected ? ' selected' : '');\
-    const inputId = 'energy-' + idx;\
-    const input = document.createElement('input');\
-    input.type = 'checkbox'; input.id = inputId; input.checked = isSelected;\
-    input.addEventListener('change', () => \{\
-      const list = new Set(state.answers.energy || []);\
-      if (input.checked) list.add(opt.id); else list.delete(opt.id);\
-      state.answers.energy = Array.from(list);\
-      render();\
-      document.getElementById(inputId)?.focus();\
-    \});\
-    const label = document.createElement('label'); label.htmlFor = inputId; label.textContent = opt.label;\
-    row.appendChild(input); row.appendChild(label); grid.appendChild(row);\
-  \});\
-  wrap.appendChild(grid);\
-  const label2 = document.createElement('label'); label2.className = 'field-label'; label2.htmlFor = 'energy-notes';\
-  label2.textContent = 'Anything else about this you want staff to know? (optional)';\
-  const ta = document.createElement('textarea'); ta.id = 'energy-notes';\
-  ta.value = state.answers.energyNotes || '';\
-  ta.addEventListener('input', () => \{ state.answers.energyNotes = ta.value; \});\
-  wrap.appendChild(label2); wrap.appendChild(ta);\
-  return wrap;\
-\}\
-\
-function renderRankQuestion(q) \{\
-  const list = document.createElement('div');\
-  list.className = 'choice-grid';\
-  const order = state.answers.priorities || q.options.slice();\
-  order.forEach((theme, idx) => \{\
-    const row = document.createElement('div');\
-    row.className = 'choice';\
-    row.style.justifyContent = 'space-between';\
-    row.innerHTML = `<span><strong>$\{idx + 1\}.</strong> $\{escapeHtml(theme)\}</span>`;\
-    const btns = document.createElement('div');\
-    const up = document.createElement('button'); up.type = 'button'; up.className = 'pill-btn'; up.textContent = '
-\f1 \uc0\u8593 
-\f0  Up';\
-    up.setAttribute('aria-label', 'Move ' + theme + ' up'); up.disabled = idx === 0;\
-    up.style.borderColor = 'var(--primary)'; up.style.color = 'var(--primary-dark)';\
-    up.addEventListener('click', () => \{ [order[idx - 1], order[idx]] = [order[idx], order[idx - 1]]; state.answers.priorities = order; render(); \});\
-    const down = document.createElement('button'); down.type = 'button'; down.className = 'pill-btn'; down.textContent = 'Down 
-\f1 \uc0\u8595 
-\f0 ';\
-    down.setAttribute('aria-label', 'Move ' + theme + ' down'); down.disabled = idx === order.length - 1;\
-    down.style.borderColor = 'var(--primary)'; down.style.color = 'var(--primary-dark)';\
-    down.addEventListener('click', () => \{ [order[idx + 1], order[idx]] = [order[idx], order[idx + 1]]; state.answers.priorities = order; render(); \});\
-    btns.appendChild(up); btns.appendChild(down);\
-    row.appendChild(btns);\
-    list.appendChild(row);\
-  \});\
-  return list;\
-\}\
-\
-function renderExclusionsQuestion(q) \{\
-  const wrap = document.createElement('div');\
-  const list = state.answers.unavailable || [];\
-  const listEl = document.createElement('div');\
-  function drawRows() \{\
-    listEl.innerHTML = '';\
-    if (list.length === 0) \{\
-      const p = document.createElement('p'); p.className = 'hint'; p.textContent = "You haven't added any -- that's okay if you're flexible.";\
-      listEl.appendChild(p);\
-    \}\
-    list.forEach((row, idx) => \{\
-      const rowEl = document.createElement('div');\
-      rowEl.className = 'exclusion-row';\
-      const daySel = document.createElement('select');\
-      daySel.setAttribute('aria-label', 'Day not available, row ' + (idx + 1));\
-      DAYS.forEach(d => \{ const o = document.createElement('option'); o.value = d; o.textContent = DAY_NAMES[d]; if (row.day === d) o.selected = true; daySel.appendChild(o); \});\
-      daySel.addEventListener('change', () => \{ row.day = daySel.value; \});\
-      const startInput = document.createElement('input'); startInput.type = 'time'; startInput.value = row.start || '';\
-      startInput.setAttribute('aria-label', 'Start time, row ' + (idx + 1));\
-      startInput.addEventListener('change', () => \{ row.start = startInput.value; \});\
-      const toSpan = document.createElement('span'); toSpan.textContent = 'to';\
-      const endInput = document.createElement('input'); endInput.type = 'time'; endInput.value = row.end || '';\
-      endInput.setAttribute('aria-label', 'End time, row ' + (idx + 1));\
-      endInput.addEventListener('change', () => \{ row.end = endInput.value; \});\
-      const removeBtn = document.createElement('button'); removeBtn.className = 'pill-btn'; removeBtn.textContent = 'Remove';\
-      removeBtn.setAttribute('aria-label', 'Remove this time, row ' + (idx + 1));\
-      removeBtn.addEventListener('click', () => \{ list.splice(idx, 1); state.answers.unavailable = list; render(); \});\
-      rowEl.appendChild(daySel); rowEl.appendChild(startInput); rowEl.appendChild(toSpan); rowEl.appendChild(endInput); rowEl.appendChild(removeBtn);\
-      listEl.appendChild(rowEl);\
-    \});\
-  \}\
-  drawRows();\
-  wrap.appendChild(listEl);\
-  const addBtn = document.createElement('button'); addBtn.type = 'button'; addBtn.className = 'btn secondary'; addBtn.style.marginTop = '12px';\
-  addBtn.textContent = '+ Add a time';\
-  addBtn.addEventListener('click', () => \{ list.push(\{ day: DAYS[list.length % DAYS.length], start: '', end: '' \}); state.answers.unavailable = list; render(); \});\
-  wrap.appendChild(addBtn);\
-  return wrap;\
-\}\
-\
-function renderStudentNav() \{\
-  const row = document.createElement('div');\
-  row.className = 'btn-row';\
-  const back = document.createElement('button'); back.className = 'btn secondary'; back.textContent = 'Back';\
-  back.disabled = state.step === 0;\
-  back.addEventListener('click', () => \{ state.step = Math.max(0, state.step - 1); render(); \});\
-  const next = document.createElement('button'); next.className = 'btn primary';\
-  const isLast = state.step === QUESTIONS.length - 1;\
-  next.textContent = isLast ? 'Build my schedule' : 'Next';\
-  next.addEventListener('click', () => \{\
-    if (isLast) state.schedule = buildSchedule();\
-    state.step += 1;\
-    render();\
-    root.querySelector('#q-title, h2')?.focus?.();\
-  \});\
-  row.appendChild(back); row.appendChild(next);\
-  return row;\
-\}\
-\
-/* ==========================================================\
-   SCHEDULING ALGORITHM\
-   ========================================================== */\
-/* ==========================================================\
-   DATE HELPERS -- for the week-by-week monthly view\
-   ========================================================== */\
-function getWeeksInMonth(year, month) \{\
-  const last = new Date(year, month + 1, 0);\
-  const weeks = [];\
-  let cursor = new Date(year, month, 1);\
-  const dow = cursor.getDay();\
-  cursor.setDate(cursor.getDate() + (dow === 0 ? -6 : 1 - dow)); // rewind to Monday\
-  while (cursor <= last) \{\
-    const dates = [];\
-    for (let i = 0; i < 5; i++) \{ dates.push(new Date(cursor)); cursor.setDate(cursor.getDate() + 1); \}\
-    cursor.setDate(cursor.getDate() + 2); // skip weekend\
-    if (dates.some(d => d.getMonth() === month)) weeks.push(dates);\
-  \}\
-  return weeks;\
-\}\
-// Which month/year is this schedule actually for? Prefer the month found in\
-// the loaded outings/workshops data (since that's dated content tied to a\
-// specific month) over "whatever today's date happens to be" -- otherwise\
-// loading next month's newsletter early produces a schedule dated for the\
-// wrong month.\
-function getScheduleYearMonth() \{\
-  const dated = state.classes.find(c => c.isOuting && c.date);\
-  if (dated) \{\
-    const d = parseOutingDateStringWithYear(dated.date, new Date().getFullYear());\
-    if (d) return \{ year: d.getFullYear(), month: d.getMonth() \};\
-  \}\
-  const now = new Date();\
-  return \{ year: now.getFullYear(), month: now.getMonth() \};\
-\}\
-function parseOutingDateStringWithYear(dateStr, year) \{\
-  if (!dateStr) return null;\
-  const m = String(dateStr).trim().match(new RegExp('^(' + MONTHS.join('|') + ')\\\\s+(\\\\d\{1,2\})', 'i'));\
-  if (!m) return null;\
-  const monthIdx = MONTHS.findIndex(mo => mo.toLowerCase() === m[1].toLowerCase());\
-  if (monthIdx < 0) return null;\
-  return new Date(year, monthIdx, parseInt(m[2], 10));\
-\}\
-function formatDate(d) \{ return d.toLocaleDateString('en-US', \{ month: 'short', day: 'numeric' \}); \}\
-function parseOutingDateString(dateStr, year) \{\
-  return parseOutingDateStringWithYear(dateStr, year || new Date().getFullYear());\
-\}\
-function sameDate(a, b) \{ return a && b && a.getMonth() === b.getMonth() && a.getDate() === b.getDate(); \}\
-\
-function scoreCandidate(c, rankScore, alwaysInclude, riskKeywords) \{\
-  let score = 1; // base score so any non-excluded activity beats an empty slot\
-  (c.themes || []).forEach(t => \{ score += rankScore[t] || 0; \});\
-  const mustHave = alwaysInclude.length > 0 && textMatchesAny(c.title + ' ' + c.description, alwaysInclude);\
-  if (mustHave) score += 1000; // wins outright over anything else offered at the same time\
-  const flagged = textMatchesAny(c.title + ' ' + c.description, riskKeywords);\
-  if (flagged) score -= 6;\
-  return \{ score, mustHave, flagged \};\
-\}\
-function pickTop(candidates, max) \{\
-  return candidates.slice().sort((a, b) => b._score - a._score || a.startMin - b.startMin || a.title.localeCompare(b.title)).slice(0, max);\
-\}\
-\
-function buildSchedule() \{\
-  const a = state.answers;\
-  const priorities = a.priorities || THEMES.slice();\
-  const rankScore = \{\};\
-  priorities.forEach((theme, i) => \{ rankScore[theme] = priorities.length - i; \});\
-\
-  const wantedTimes = a.times || [];\
-  const allowMorning = wantedTimes.length === 0 || wantedTimes.includes('Mornings') || wantedTimes.includes('All day (mornings and afternoons)');\
-  const allowAfternoon = wantedTimes.length === 0 || wantedTimes.includes('Afternoons') || wantedTimes.includes('All day (mornings and afternoons)');\
-\
-  const exclusions = (a.unavailable || []).map(e => \{\
-    const [sh, sm] = (e.start || '0:0').split(':').map(Number);\
-    const [eh, em] = (e.end || '0:0').split(':').map(Number);\
-    return \{ day: e.day, start: sh * 60 + sm, end: eh * 60 + em \};\
-  \});\
-  const energySelected = a.energy || [];\
-  const riskKeywords = ENERGY_OPTIONS.filter(o => energySelected.includes(o.id)).flatMap(o => o.riskKeywords);\
-  const alwaysInclude = splitKeywords(a.mustInclude);\
-  const hardExclude = splitKeywords(a.hardExclude);\
-  const dayCountAnswer = a.days || '5 (every weekday)';\
-  const dayCount = parseInt(dayCountAnswer, 10) || 5;\
-\
-  function passesFilters(c, day) \{\
-    if (textMatchesAny(c.title + ' ' + c.description, hardExclude)) return false;\
-    return !exclusions.some(ex => ex.day === day && c.startMin < ex.end && c.endMin > ex.start);\
-  \}\
-\
-  const regularClasses = state.classes.filter(c => !c.isOuting && !c.canceled);\
-  const outings = state.classes.filter(c => c.isOuting && !c.canceled);\
-\
-  // ---- which weekdays make the recurring pattern, based on regular classes only ----\
-  const dayTotals = \{\};\
-  DAYS.forEach(day => \{\
-    let total = 0;\
-    PERIODS.forEach(period => \{\
-      if (period === 'Morning' && !allowMorning) return;\
-      if (period === 'Afternoon' && !allowAfternoon) return;\
-      let candidates = regularClasses.filter(c => c.day === day && (period === 'Morning' ? c.startMin < 720 : c.startMin >= 720));\
-      candidates = candidates.filter(c => passesFilters(c, day));\
-      candidates.forEach(c => \{ c._score = scoreCandidate(c, rankScore, alwaysInclude, riskKeywords).score; \});\
-      total += pickTop(candidates, 2).reduce((sum, c) => sum + c._score, 0);\
-    \});\
-    dayTotals[day] = total;\
-  \});\
-  const chosenDays = DAYS.filter(d => DAYS\
-    .map(x => (\{ x, total: dayTotals[x] \}))\
-    .sort((p, q) => q.total - p.total)\
-    .slice(0, dayCount)\
-    .some(p => p.x === d));\
-\
-  // ---- week-by-week dated schedule ----\
-  const \{ year: scheduleYear, month: scheduleMonth \} = getScheduleYearMonth();\
-  const weeks = getWeeksInMonth(scheduleYear, scheduleMonth);\
-  const scheduleWeeks = weeks.map((weekDates, wi) => \{\
-    const days = [];\
-    DAYS.forEach((day, di) => \{\
-      const date = weekDates[di];\
-      const isChosenDay = chosenDays.includes(day);\
-      const items = [];\
-\
-      PERIODS.forEach(period => \{\
-        if (period === 'Morning' && !allowMorning) return;\
-        if (period === 'Afternoon' && !allowAfternoon) return;\
-        const inPeriod = c => (period === 'Morning' ? c.startMin < 720 : c.startMin >= 720);\
-\
-        let candidates = isChosenDay ? regularClasses.filter(c => c.day === day && inPeriod(c)) : [];\
-        const outingsThisDate = outings.filter(c => sameDate(parseOutingDateString(c.date, scheduleYear), date) && inPeriod(c));\
-        candidates = candidates.concat(outingsThisDate).filter(c => passesFilters(c, day));\
-        if (candidates.length === 0) return;\
-\
-        candidates.forEach(c => \{\
-          const s = scoreCandidate(c, rankScore, alwaysInclude, riskKeywords);\
-          c._score = s.score; c._mustHave = s.mustHave; c._flagged = s.flagged;\
-        \});\
-        // on a day that isn't part of the recurring pattern, only surface an outing\
-        // (never a random class that wouldn't otherwise be part of the plan)\
-        const winners = isChosenDay ? pickTop(candidates, 2) : pickTop(candidates.filter(c => c.isOuting), 1);\
-\
-        winners.forEach(c => items.push(\{\
-          title: c.title, timeLabel: c.timeLabel, startMin: c.startMin, location: c.location,\
-          instructor: c.instructor, mode: c.mode, description: c.description,\
-          mustHave: c._mustHave, flagged: c._flagged, isOuting: !!c.isOuting, kind: c.kind\
-        \}));\
-      \});\
-\
-      if (items.length > 0) \{\
-        items.sort((x, y) => (x.startMin || 0) - (y.startMin || 0));\
-        days.push(\{ day, dayName: DAY_NAMES[day], date: formatDate(date), items \});\
-      \}\
-    \});\
-    return \{ label: 'WEEK ' + (wi + 1) + ' (' + formatDate(weekDates[0]) + ' \\u2013 ' + formatDate(weekDates[4]) + ')', days \};\
-  \}).filter(w => w.days.length > 0);\
-\
-  return \{ weeks: scheduleWeeks, chosenDays \};\
-\}\
-\
-/* ==========================================================\
-   PRINTABLE SCHEDULE (opens in a new tab, then prints from there)\
-   When this page is embedded in a sandboxed iframe (e.g. a Google\
-   Sites "Embed code" block), window.print() called on the embedded\
-   page itself is silently blocked. Opening a genuine new tab and\
-   calling print() from inside THAT tab sidesteps the restriction,\
-   because the new tab is a normal, non-sandboxed browsing context.\
-   ========================================================== */\
-function itemEmoji(it) \{\
-  if (!it.isOuting) return '\\ud83d\\udccb'; // 
-\f2 \uc0\u55357 \u56523 
-\f0  regular class\
-  if (it.kind === 'workshop') return '\\ud83e\\uddd1\\u200d\\ud83c\\udfeb'; // 
-\f2 \uc0\u55358 \u56785 \u8205 \u55356 \u57323 
-\f0  workshop\
-  return '\\u2b50'; // 
-\f2 \uc0\u11088 
-\f0  outing\
-\}\
-const LEGEND_TEXT = 'LEGEND\\n\\ud83d\\udccb = structured class, planned regular attendance\\n\\u2b50 = outing, must sign up (add a number beside the star for your own priority order)\\n\\ud83e\\uddd1\\u200d\\ud83c\\udfeb = workshop, must sign up';\
-const LEGEND_HTML = '<p><strong>LEGEND</strong><br>\\ud83d\\udccb = structured class, planned regular attendance<br>\\u2b50 = outing, must sign up (add a number beside the star for your own priority order)<br>\\ud83e\\uddd1\\u200d\\ud83c\\udfeb = workshop, must sign up</p>';\
-function buildPrintableHtml(sched) \{\
-  const weekBlocks = (sched?.weeks || []).map(week => \{\
-    const dayBlocks = week.days.map(d => \{\
-      const items = d.items.map(it =>\
-        `<li>$\{itemEmoji(it)\} <strong>$\{escapeHtml(it.title)\}</strong> \\u2014 $\{escapeHtml(it.timeLabel || '')\}$\{it.location ? ', ' + escapeHtml(it.location) : ''\}$\{it.instructor ? ', ' + escapeHtml(it.instructor) : ''\}$\{it.isOuting ? ' (' + (it.kind === 'workshop' ? 'Workshop' : 'Outing') + ' \\u2014 sign up at front desk)' : ''\}$\{it.description ? '<br><span style="color:#45564F">' + escapeHtml(it.description) + '</span>' : ''\}</li>`\
-      ).join('');\
-      return `<h3>$\{escapeHtml(d.dayName)\}, $\{escapeHtml(d.date)\}</h3><ul>$\{items\}</ul>`;\
-    \}).join('');\
-    return `<h2>$\{escapeHtml(week.label)\}</h2>$\{dayBlocks\}`;\
-  \}).join('');\
-\
-  return `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">\
-    <meta name="viewport" content="width=device-width, initial-scale=1">\
-    <title>My Schedule</title>\
-    <style>\
-      @import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap');\
-      body\{font-family:'Atkinson Hyperlegible',Arial,Helvetica,sans-serif;font-size:16px;color:#1F2E2B;max-width:680px;margin:24px auto;padding:0 16px;line-height:1.55;\}\
-      h1\{color:#234F45;\} h2\{color:#2F6F62;margin-top:28px;border-bottom:2px solid #C9D2C6;padding-bottom:4px;\}\
-      h3\{color:#1F2E2B;margin:16px 0 4px;font-size:1.05rem;\}\
-      ul\{padding-left:20px;\} li\{margin-bottom:10px;line-height:1.5;\}\
-      .print-btn\{margin:16px 0;padding:10px 20px;font-size:1rem;border-radius:999px;border:2px solid #2F6F62;background:#2F6F62;color:#fff;cursor:pointer;min-height:44px;\}\
-      @media print \{ .print-btn\{display:none;\} \}\
-    </style></head><body>\
-    <h1>My NextChapter Schedule</h1>\
-    <button class="print-btn" onclick="window.print()">Print this page</button>\
-    $\{weekBlocks || '<p>No matching activities were found.</p>'\}\
-    $\{weekBlocks ? LEGEND_HTML : ''\}\
-    </body></html>`;\
-\}\
-\
-function openPrintableSchedule(sched) \{\
-  const html = buildPrintableHtml(sched);\
-  const win = window.open('', '_blank');\
-  if (!win) \{\
-    alert('Your browser blocked the new tab. Please allow pop-ups for this page and try again.');\
-    return;\
-  \}\
-  win.document.open();\
-  win.document.write(html);\
-  win.document.close();\
-  win.onload = () => \{ try \{ win.focus(); win.print(); \} catch (e) \{\} \};\
-  setTimeout(() => \{ try \{ win.focus(); win.print(); \} catch (e) \{\} \}, 400);\
-\}\
-\
-/* ==========================================================\
-   GOOGLE DOC EXPORT (no backend -- copies text, opens a blank Doc)\
-   ========================================================== */\
-function scheduleToPlainText(sched) \{\
-  if (!sched || !sched.weeks.length) return 'No matching activities were found.';\
-  const body = sched.weeks.map(week => \{\
-    const lines = [];\
-    week.days.forEach(d => \{\
-      d.items.forEach(it => \{\
-        lines.push(itemEmoji(it) + ' ' + d.dayName + ', ' + d.date + ' | ' + (it.timeLabel || '') + ' | ' + it.title + ' (' + capitalize(it.mode) + (it.location ? ', ' + it.location : '') + ')' + (it.isOuting ? ' [' + (it.kind === 'workshop' ? 'Workshop' : 'Outing') + ' -- sign up at front desk]' : '') + (it.description ? ' \\u2014 ' + it.description : ''));\
-      \});\
-    \});\
-    return week.label + '\\n' + lines.join('\\n');\
-  \}).join('\\n\\n');\
-  return body + '\\n\\n' + LEGEND_TEXT;\
-\}\
-\
-function scheduleToHtml(sched) \{\
-  if (!sched || !sched.weeks.length) return '<p>No matching activities were found.</p>';\
-  const weekBlocks = sched.weeks.map(week => \{\
-    const dayBlocks = week.days.map(d => \{\
-      const items = d.items.map(it =>\
-        `<li>$\{itemEmoji(it)\} <strong>$\{escapeHtml(it.title)\}</strong> \\u2014 $\{escapeHtml(it.timeLabel || '')\}$\{it.location ? ', ' + escapeHtml(it.location) : ''\}$\{it.isOuting ? ' (' + (it.kind === 'workshop' ? 'Workshop' : 'Outing') + ' \\u2014 sign up at front desk)' : ''\}$\{it.description ? '<br><span style="color:#45564F">' + escapeHtml(it.description) + '</span>' : ''\}</li>`\
-      ).join('');\
-      return `<p><strong>$\{escapeHtml(d.dayName)\}, $\{escapeHtml(d.date)\}</strong></p><ul>$\{items\}</ul>`;\
-    \}).join('');\
-    return `<h2>$\{escapeHtml(week.label)\}</h2>$\{dayBlocks\}`;\
-  \}).join('');\
-  return weekBlocks + LEGEND_HTML;\
-\}\
-\
-async function copyTextToClipboard(text) \{\
-  try \{ await navigator.clipboard.writeText(text); return true; \} catch (e) \{\}\
-  try \{\
-    const ta = document.createElement('textarea');\
-    ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';\
-    document.body.appendChild(ta); ta.focus(); ta.select();\
-    const ok = document.execCommand('copy');\
-    document.body.removeChild(ta);\
-    return ok;\
-  \} catch (e) \{ return false; \}\
-\}\
-\
-function showManualCopyBox(text, afterEl) \{\
-  const existing = document.getElementById('manual-copy-box');\
-  if (existing) existing.remove();\
-  const ta = document.createElement('textarea');\
-  ta.id = 'manual-copy-box';\
-  ta.value = text; ta.readOnly = true; ta.style.minHeight = '160px'; ta.className = 'no-print';\
-  ta.setAttribute('aria-label', 'Schedule text to copy manually');\
-  afterEl.insertAdjacentElement('afterend', ta);\
-  ta.focus(); ta.select();\
-\}\
-\
-async function copyRichToClipboard(html, text) \{\
-  if (navigator.clipboard && window.ClipboardItem) \{\
-    try \{\
-      const item = new ClipboardItem(\{\
-        'text/html': new Blob([html], \{ type: 'text/html' \}),\
-        'text/plain': new Blob([text], \{ type: 'text/plain' \})\
-      \});\
-      await navigator.clipboard.write([item]);\
-      return true;\
-    \} catch (e) \{ /* fall through to plain text */ \}\
-  \}\
-  return copyTextToClipboard(text);\
-\}\
-\
-function openInGoogleDoc(sched, statusEl) \{\
-  const text = scheduleToPlainText(sched);\
-  const html = scheduleToHtml(sched);\
-  // Open the blank Doc FIRST and synchronously, so the browser still\
-  // treats this as a direct result of the click (avoids pop-up blocking).\
-  window.open('https://docs.google.com/document/create', '_blank');\
-  copyRichToClipboard(html, text).then(ok => \{\
-    statusEl.textContent = ok\
-      ? 'Copied! Switch to the new Google Doc tab and paste with Ctrl/Cmd+V.'\
-      : "Couldn't copy automatically \\u2014 select and copy the text below, then paste it into the new Doc tab.";\
-    if (!ok) showManualCopyBox(text, statusEl);\
-  \});\
-\}\
-\
-function renderResultsCard() \{\
-  const card = document.createElement('section');\
-  card.className = 'card';\
-  const h2 = document.createElement('h2'); h2.tabIndex = -1; h2.style.color = 'var(--primary-dark)'; h2.textContent = 'Your suggested schedule';\
-  card.appendChild(h2);\
-  const p = document.createElement('p'); p.className = 'hint';\
-  p.textContent = 'Check off activities you plan to attend. Outings and workshops often need sign-up in advance at the front desk -- consider signing up for those early in the month.';\
-  card.appendChild(p);\
-\
-  const sched = state.schedule;\
-  if (!sched || sched.weeks.length === 0) \{\
-    const banner = document.createElement('p'); banner.className = 'banner info';\
-    banner.textContent = "We couldn't build a schedule from the current activities and answers. A staff member can help you build one in person.";\
-    card.appendChild(banner);\
-  \} else \{\
-    let checkboxIdx = 0;\
-    sched.weeks.forEach(week => \{\
-      const weekHeading = document.createElement('h3'); weekHeading.style.color = 'var(--primary-dark)'; weekHeading.style.marginTop = '24px';\
-      weekHeading.textContent = week.label;\
-      card.appendChild(weekHeading);\
-      week.days.forEach(dayEntry => \{\
-        const dayHeading = document.createElement('h4'); dayHeading.style.color = 'var(--ink)'; dayHeading.style.margin = '14px 0 6px';\
-        dayHeading.textContent = dayEntry.dayName + ', ' + dayEntry.date;\
-        card.appendChild(dayHeading);\
-        dayEntry.items.forEach(entry => \{\
-          const item = document.createElement('div'); item.className = 'result-item';\
-          const cbId = 'r-' + (checkboxIdx++);\
-          item.innerHTML = `\
-            <input type="checkbox" id="$\{cbId\}">\
-            <div>\
-              <label for="$\{cbId\}" class="r-title">$\{escapeHtml(entry.title)\}</label>\
-              <div class="r-highlight">$\{escapeHtml(entry.timeLabel || '')\}$\{entry.location ? ' &middot; ' + escapeHtml(entry.location) : ''\}</div>\
-              $\{(entry.instructor || entry.mode || entry.description) ? `<details class="r-more"><summary>More details</summary><div class="r-meta">$\{escapeHtml(capitalize(entry.mode))\}$\{entry.instructor ? ' &middot; ' + escapeHtml(entry.instructor) : ''\}$\{entry.description ? '<br>' + escapeHtml(entry.description) : ''\}</div></details>` : ''\}\
-              $\{entry.isOuting ? '<span class="badge" style="background:var(--accent)">' + (entry.kind === 'workshop' ? 'Workshop' : 'Outing') + ' \\u2014 sign up at front desk</span>' : ''\}\
-              $\{entry.mustHave ? '<span class="badge">You asked for this</span>' : ''\}\
-              $\{entry.flagged ? '<span class="badge" style="background:var(--support)">Double-check with staff</span>' : ''\}\
-            </div>`;\
-          card.appendChild(item);\
-        \});\
-      \});\
-    \});\
-  \}\
-\
-  const row = document.createElement('div'); row.className = 'btn-row';\
-  const back = document.createElement('button'); back.className = 'btn secondary no-print'; back.textContent = 'Back to questions';\
-  back.addEventListener('click', () => \{ state.step = QUESTIONS.length - 1; render(); \});\
-  const startOver = document.createElement('button'); startOver.className = 'btn secondary no-print'; startOver.textContent = 'Start over';\
-  startOver.addEventListener('click', () => \{ state.step = 0; state.answers = \{ priorities: THEMES.slice() \}; state.schedule = null; render(); \});\
-  const printBtn = document.createElement('button'); printBtn.className = 'btn primary no-print'; printBtn.textContent = 'Print / save as PDF';\
-  printBtn.addEventListener('click', () => openPrintableSchedule(sched));\
-  const docBtn = document.createElement('button'); docBtn.className = 'btn secondary no-print'; docBtn.textContent = 'Open in Google Doc';\
-  const docStatus = document.createElement('p'); docStatus.className = 'hint no-print'; docStatus.setAttribute('aria-live', 'polite');\
-  docBtn.addEventListener('click', () => openInGoogleDoc(sched, docStatus));\
-  row.appendChild(back); row.appendChild(startOver); row.appendChild(printBtn); row.appendChild(docBtn);\
-  card.appendChild(row);\
-  card.appendChild(docStatus);\
-  return card;\
-\}\
-\
-/* ---------------- STAFF FLOW ---------------- */\
-function renderStaffFlow() \{\
-  const wrap = document.createElement('div');\
-  wrap.appendChild(renderClassScheduleImportCard());\
-  wrap.appendChild(renderOutingsImportCard());\
-  wrap.appendChild(renderReviewTableCard());\
-  return wrap;\
-\}\
-\
-function renderClassScheduleImportCard() \{\
-  const card = document.createElement('section');\
-  card.className = 'card';\
-  const h2 = document.createElement('h2'); h2.style.color = 'var(--primary-dark)'; h2.textContent = "Add this month's regular classes";\
-  card.appendChild(h2);\
-\
-  const steps = document.createElement('ol');\
-  steps.style.paddingLeft = '20px';\
-  steps.style.color = 'var(--ink-soft)';\
-  steps.innerHTML = `\
-    <li>Open the Daily Class Schedule and select all the text (Ctrl/Cmd+A), then copy it (Ctrl/Cmd+C). <a href="$\{NEWSLETTER_URL\}" target="_blank" rel="noopener">Open the schedule</a></li>\
-    <li>Paste it into the box below.</li>\
-    <li>Click "Read pasted text."</li>\
-    <li>Check the table underneath and fix anything that looks off.</li>\
-    <li>Add anything by hand that didn't get picked up.</li>\
-  `;\
-  card.appendChild(steps);\
-\
-  const textarea = document.createElement('textarea');\
-  textarea.style.minHeight = '160px';\
-  textarea.setAttribute('aria-label', 'Pasted class schedule text');\
-  textarea.placeholder = 'Paste the daily class schedule text here...';\
-  card.appendChild(textarea);\
-\
-  const parseRow = document.createElement('div'); parseRow.className = 'btn-row';\
-  const parseBtn = document.createElement('button'); parseBtn.className = 'btn primary'; parseBtn.textContent = 'Read pasted text';\
-  const resultMsg = document.createElement('p'); resultMsg.className = 'hint';\
-  parseBtn.addEventListener('click', () => \{\
-    const \{ classes, skipped \} = parseNewsletterText(textarea.value);\
-    if (classes.length === 0) \{\
-      resultMsg.textContent = "Nothing recognizable was found. Make sure you copied the full page, including the day headings (MONDAY, TUESDAY, etc).";\
-      resultMsg.className = 'banner danger';\
-      return;\
-    \}\
-    state.classes = state.classes.concat(classes);\
-    saveClasses(state.classes);\
-    resultMsg.className = 'banner success';\
-    resultMsg.textContent = `Added $\{classes.length\} classes` + (skipped ? ` ($\{skipped\} lines had a time we couldn't read -- add those by hand below if needed).` : '.') + ' Review the table below and fix anything that looks off.';\
-    render();\
-  \});\
-  parseRow.appendChild(parseBtn);\
-  card.appendChild(parseRow);\
-  card.appendChild(resultMsg);\
-  return card;\
-\}\
-\
-function renderOutingsImportCard() \{\
-  const card = document.createElement('section');\
-  card.className = 'card';\
-  const h2 = document.createElement('h2'); h2.style.color = 'var(--primary-dark)'; h2.textContent = "Add this month's outings & workshops";\
-  card.appendChild(h2);\
-\
-  const steps = document.createElement('ol');\
-  steps.style.paddingLeft = '20px';\
-  steps.style.color = 'var(--ink-soft)';\
-  steps.innerHTML = `\
-    <li>Open the Outings & Workshops PDF and select all the text (Ctrl/Cmd+A), then copy it (Ctrl/Cmd+C).</li>\
-    <li>Paste it into the box below.</li>\
-    <li>Click "Read pasted text."</li>\
-    <li>Check the table underneath and fix anything that looks off.</li>\
-  `;\
-  card.appendChild(steps);\
-\
-  const textarea = document.createElement('textarea');\
-  textarea.style.minHeight = '160px';\
-  textarea.setAttribute('aria-label', 'Pasted outings and workshops text');\
-  textarea.placeholder = 'Paste the outings & workshops PDF text here...';\
-  card.appendChild(textarea);\
-\
-  const parseRow = document.createElement('div'); parseRow.className = 'btn-row';\
-  const parseBtn = document.createElement('button'); parseBtn.className = 'btn primary'; parseBtn.textContent = 'Read pasted text';\
-  const resultMsg = document.createElement('p'); resultMsg.className = 'hint';\
-  parseBtn.addEventListener('click', () => \{\
-    const \{ classes, skipped \} = parseOutingsText(textarea.value);\
-    if (classes.length === 0) \{\
-      resultMsg.textContent = "Nothing recognizable was found. Make sure you copied the full document.";\
-      resultMsg.className = 'banner danger';\
-      return;\
-    \}\
-    state.classes = state.classes.concat(classes);\
-    saveClasses(state.classes);\
-    resultMsg.className = 'banner success';\
-    resultMsg.textContent = `Added $\{classes.length\} outings & workshops` + (skipped ? ` ($\{skipped\} entries couldn't be read -- add those by hand below if needed).` : '.') + ' Review the table below and fix anything that looks off.';\
-    render();\
-  \});\
-  parseRow.appendChild(parseBtn);\
-  card.appendChild(parseRow);\
-  card.appendChild(resultMsg);\
-  return card;\
-\}\
-\
-function renderReviewTableCard() \{\
-  const card = document.createElement('section');\
-  card.className = 'card';\
-  const h2 = document.createElement('h2'); h2.style.color = 'var(--primary-dark)'; h2.textContent = `This month's activities ($\{state.classes.length\})`;\
-  card.appendChild(h2);\
-  const p = document.createElement('p'); p.className = 'hint';\
-  p.textContent = 'Fix anything the automatic reading got wrong, or add activities by hand. "Date" only applies to outings/workshops -- leave it blank for a regular weekly class. This list is stored only in this browser.';\
-  card.appendChild(p);\
-\
-  const table = document.createElement('table'); table.className = 'admin-table';\
-  table.innerHTML = `<thead><tr>\
-      <th scope="col">Title</th><th scope="col">Day</th><th scope="col">Date</th><th scope="col">Time</th>\
-      <th scope="col">Mode</th><th scope="col">Location</th><th scope="col">Themes (auto)</th><th scope="col">Remove</th>\
-    </tr></thead>`;\
-  const tbody = document.createElement('tbody');\
-  state.classes.forEach((c, idx) => \{\
-    const tr = document.createElement('tr');\
-    tr.appendChild(makeTextCell(c, idx, 'title', 'Title'));\
-    tr.appendChild(makeSelectCell(c, idx, 'day', DAYS, DAY_NAMES));\
-    tr.appendChild(makeTextCell(c, idx, 'date', 'e.g. July 6 (outings only)'));\
-    tr.appendChild(makeTextCell(c, idx, 'timeLabel', 'e.g. 9-10 AM'));\
-    tr.appendChild(makeSelectCell(c, idx, 'mode', ['online', 'hybrid', 'in-person']));\
-    tr.appendChild(makeTextCell(c, idx, 'location', 'Location'));\
-    const themeTd = document.createElement('td'); themeTd.textContent = (c.themes || []).join(', ') || '\'97';\
-    tr.appendChild(themeTd);\
-    const removeTd = document.createElement('td');\
-    const removeBtn = document.createElement('button'); removeBtn.className = 'pill-btn'; removeBtn.textContent = 'Remove';\
-    removeBtn.addEventListener('click', () => \{ state.classes.splice(idx, 1); saveClasses(state.classes); render(); \});\
-    removeTd.appendChild(removeBtn); tr.appendChild(removeTd);\
-    tbody.appendChild(tr);\
-  \});\
-  table.appendChild(tbody);\
-  card.appendChild(table);\
-\
-  const addBtn = document.createElement('button'); addBtn.className = 'btn secondary'; addBtn.style.marginTop = '16px';\
-  addBtn.textContent = '+ Add a class by hand';\
-  addBtn.addEventListener('click', () => \{\
-    state.classes.push(\{ id: cryptoId(), title: '', day: 'Mon', startMin: 540, endMin: 600, timeLabel: '9-10 AM', mode: 'in-person', location: '', instructor: '', description: '', themes: [] \});\
-    saveClasses(state.classes); render();\
-  \});\
-  card.appendChild(addBtn);\
-  const clearBtn = document.createElement('button'); clearBtn.className = 'pill-btn'; clearBtn.style.marginLeft = '10px'; clearBtn.style.marginTop = '16px';\
-  clearBtn.textContent = 'Clear all classes';\
-  clearBtn.addEventListener('click', () => \{ if (confirm('Remove all classes for this month?')) \{ state.classes = []; saveClasses(state.classes); render(); \} \});\
-  card.appendChild(clearBtn);\
-  return card;\
-\}\
-\
-function makeTextCell(c, idx, field, placeholder) \{\
-  const td = document.createElement('td');\
-  const input = document.createElement('input'); input.type = 'text'; input.value = c[field] || ''; input.placeholder = placeholder;\
-  input.setAttribute('aria-label', placeholder);\
-  input.addEventListener('input', () => \{\
-    state.classes[idx][field] = input.value;\
-    if (field === 'timeLabel') \{\
-      const t = parseTimeRange(input.value);\
-      if (t) \{ state.classes[idx].startMin = t.startMin; state.classes[idx].endMin = t.endMin; \}\
-    \}\
-    if (field === 'title') state.classes[idx].themes = autoTagThemes(state.classes[idx].title, state.classes[idx].description);\
-    saveClasses(state.classes);\
-  \});\
-  td.appendChild(input); return td;\
-\}\
-function makeSelectCell(c, idx, field, options, labels) \{\
-  const td = document.createElement('td');\
-  const select = document.createElement('select'); select.setAttribute('aria-label', field);\
-  options.forEach(opt => \{ const o = document.createElement('option'); o.value = opt; o.textContent = labels ? labels[opt] : opt; if (c[field] === opt) o.selected = true; select.appendChild(o); \});\
-  select.addEventListener('change', () => \{ state.classes[idx][field] = select.value; saveClasses(state.classes); \});\
-  td.appendChild(select); return td;\
-\}\
-\
-function capitalize(s) \{ return s ? s.charAt(0).toUpperCase() + s.slice(1) : ''; \}\
-function escapeHtml(str) \{ const div = document.createElement('div'); div.textContent = str == null ? '' : String(str); return div.innerHTML; \}\
-\
-render();\
-</script>}
+@import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap');
+
+:root {
+  --paper: #EFF2ED;
+  --paper-raised: #FFFFFF;
+  --ink: #1F2E2B;
+  --ink-soft: #45564F;
+  --primary: #2F6F62;
+  --primary-dark: #234F45;
+  --accent: #C68A3E;
+  --accent-dark: #96692C;
+  --support: #6E93A0;
+  --success: #3F6B33;
+  --success-bg: #E4EEDD;
+  --danger: #A13D2E;
+  --danger-bg: #F6E3DF;
+  --focus-ring: #1450A3;
+  --radius: 12px;
+  --max-w: 720px;
+  --space-1: 8px;
+  --space-2: 16px;
+  --space-3: 24px;
+  --space-4: 40px;
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+
+body {
+  margin: 0;
+  font-family: 'Atkinson Hyperlegible', -apple-system, Segoe UI, sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  font-size: 18px;
+  line-height: 1.55;
+}
+
+.app-shell {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: var(--space-3) var(--space-2) var(--space-4);
+}
+
+/* Skip link */
+.skip-link {
+  position: absolute;
+  left: -999px;
+  top: 0;
+  background: var(--primary);
+  color: white;
+  padding: var(--space-1) var(--space-2);
+  z-index: 100;
+  border-radius: 0 0 8px 0;
+}
+.skip-link:focus {
+  left: 0;
+}
+
+/* Focus visibility -- never suppressed */
+a:focus-visible, button:focus-visible, input:focus-visible,
+select:focus-visible, textarea:focus-visible, [tabindex]:focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 3px;
+}
+
+header.top {
+  text-align: center;
+  margin-bottom: var(--space-3);
+}
+header.top h1 {
+  font-size: 1.6rem;
+  margin: 0 0 4px;
+  color: var(--primary-dark);
+}
+header.top p.tagline {
+  margin: 0;
+  color: var(--ink-soft);
+}
+
+nav.mode-switch {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-1);
+  margin-bottom: var(--space-3);
+  flex-wrap: wrap;
+}
+nav.mode-switch button {
+  background: var(--paper-raised);
+  border: 2px solid var(--primary);
+  color: var(--primary-dark);
+  border-radius: 999px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  font-family: inherit;
+  cursor: pointer;
+  min-height: 44px;
+}
+nav.mode-switch button[aria-current="true"] {
+  background: var(--primary);
+  color: white;
+}
+
+.card {
+  background: var(--paper-raised);
+  border-radius: var(--radius);
+  padding: var(--space-3);
+  box-shadow: 0 1px 3px rgba(31,46,43,0.08);
+  margin-bottom: var(--space-3);
+}
+
+/* Progress steps */
+.progress {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: var(--space-3);
+  list-style: none;
+  padding: 0;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.progress li {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #D6DDD3;
+}
+.progress li.done { background: var(--primary); }
+.progress li.current { background: var(--accent); outline: 3px solid #EAD3AC; }
+.progress-label {
+  text-align: center;
+  color: var(--ink-soft);
+  font-size: 0.95rem;
+  margin-bottom: var(--space-2);
+}
+
+fieldset {
+  border: none;
+  margin: 0 0 var(--space-3);
+  padding: 0;
+}
+legend, .question-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--primary-dark);
+  margin-bottom: var(--space-2);
+  padding: 0;
+}
+.hint {
+  color: var(--ink-soft);
+  font-size: 0.95rem;
+  margin: -8px 0 var(--space-2);
+}
+
+.choice-grid {
+  display: grid;
+  gap: 10px;
+}
+.choice {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border: 2px solid #C9D2C6;
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  cursor: pointer;
+  background: var(--paper-raised);
+  min-height: 44px;
+}
+.choice:hover { border-color: var(--primary); }
+.choice input { width: 22px; height: 22px; flex-shrink: 0; }
+.choice.selected {
+  border-color: var(--primary);
+  background: #E7F0EC;
+}
+.choice label { cursor: pointer; flex: 1; }
+
+.exclusion-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  border: 2px solid #C9D2C6;
+  border-radius: var(--radius);
+  padding: 12px 16px;
+  margin-bottom: 10px;
+  background: var(--paper-raised);
+}
+.exclusion-row select,
+.exclusion-row input[type="time"] {
+  flex: 1 1 120px;
+  min-width: 110px;
+  font-family: inherit;
+  font-size: 1rem;
+  padding: 8px 10px;
+  border: 2px solid #C9D2C6;
+  border-radius: 8px;
+  min-height: 44px;
+}
+.exclusion-row span { color: var(--ink-soft); }
+
+textarea, input[type="text"] {
+  width: 100%;
+  font-family: inherit;
+  font-size: 1rem;
+  padding: 12px;
+  border: 2px solid #C9D2C6;
+  border-radius: 8px;
+  min-height: 44px;
+}
+textarea { min-height: 90px; }
+
+.btn-row {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+  flex-wrap: wrap;
+}
+button.btn {
+  font-family: inherit;
+  font-size: 1.05rem;
+  font-weight: 700;
+  padding: 14px 26px;
+  border-radius: 999px;
+  border: 2px solid var(--primary);
+  min-height: 48px;
+  cursor: pointer;
+}
+button.btn.primary { background: var(--primary); color: white; }
+button.btn.primary:hover { background: var(--primary-dark); }
+button.btn.secondary { background: transparent; color: var(--primary-dark); }
+button.btn.secondary:hover { background: #E7F0EC; }
+button.btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* Results / checklist */
+.result-item {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  border: 2px solid #C9D2C6;
+  border-radius: var(--radius);
+  padding: 16px;
+  margin-bottom: 12px;
+}
+.result-item input[type="checkbox"] { width: 26px; height: 26px; margin-top: 4px; flex-shrink: 0; }
+.result-item .r-title { font-weight: 700; font-size: 1.1rem; }
+.result-item .r-meta { color: var(--ink-soft); font-size: 0.95rem; }
+.result-item .r-highlight { color: var(--ink); font-weight: 600; font-size: 1rem; margin-top: 2px; }
+.result-item .r-more { margin-top: 6px; }
+.result-item .r-more summary { cursor: pointer; color: var(--support); font-size: 0.9rem; font-weight: 700; min-height: 24px; }
+.result-item .r-more summary:hover { color: var(--primary-dark); }
+.result-item .r-more .r-meta { margin-top: 6px; }
+.badge {
+  display: inline-block;
+  background: var(--accent);
+  color: #fff;
+  border-radius: 999px;
+  padding: 2px 12px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  margin-top: 6px;
+}
+
+.banner {
+  border-radius: var(--radius);
+  padding: var(--space-2);
+  margin-bottom: var(--space-3);
+}
+.banner.info { background: #E4EAF0; color: #1F3A50; }
+.banner.success { background: var(--success-bg); color: var(--success); }
+.banner.danger { background: var(--danger-bg); color: var(--danger); }
+
+table.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: var(--space-2);
+}
+table.admin-table th, table.admin-table td {
+  text-align: left;
+  padding: 10px;
+  border-bottom: 1px solid #D6DDD3;
+  vertical-align: top;
+}
+table.admin-table th { color: var(--ink-soft); font-weight: 700; font-size: 0.9rem; }
+
+.pill-btn {
+  background: transparent;
+  border: 2px solid var(--danger);
+  color: var(--danger);
+  border-radius: 999px;
+  padding: 6px 14px;
+  font-family: inherit;
+  cursor: pointer;
+  min-height: 40px;
+}
+
+label.field-label { display: block; font-weight: 700; margin: var(--space-2) 0 6px; }
+
+@media print {
+  nav.mode-switch, .no-print, .btn-row, .skip-link { display: none !important; }
+  body { background: white; font-size: 14pt; }
+  .card { box-shadow: none; border: 1px solid #999; }
+}
+
+footer.app-footer {
+  text-align: center;
+  color: var(--ink-soft);
+  font-size: 0.85rem;
+  margin-top: var(--space-4);
+}
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#app-root">Skip to main content</a>
+  <div class="app-shell">
+    <header class="top">
+      <h1>This Month's Schedule Builder</h1>
+      <p class="tagline">Instructions: Click &ldquo;Start Here,&rdquo; button; each button becomes active as you complete the steps.<ol><li>Import this month's Class Schedules, Outings, and Workshops per the provided instructions below.</li><li>Scroll back to the top and click "Build Schedule," until then it's inactive.</li><li>Finally, answer 7 questions to build YOUR CUSTOMIZED activity checklist for the month.</li></ol></p>
+    </header>
+    <main id="app-root" aria-live="polite"></main>
+    <footer class="app-footer">
+      <p>Nothing you enter here is sent anywhere (to the internet, an AI or otherwise) or saved outside this device and instance of usage.</p>
+      <p style="font-style: italic;">Please note that once you close this window or tab ALL information is lost! You can go back and edit your answers to get new schedules. A best practice is to export the result to Google Doc and turn into a LIVE check list you can have in your pocket and check off as classes happen and know exactly what's happening next based off 10 minutes effort!</p>
+      <p><a href="https://github.com/mcfuzznstuff/NextChapterScheduler/blob/962bdb5188cb66d9fc20da7f0fd749cfb234ecb9/FAQ%20%E2%80%94%20NextChapter%20Schedule%20Builder%20(v1.0).md">FAQ</a></p>
+    </footer>
+  </div>
+  <script>
+/* ==========================================================
+   DATA MODEL
+   Classes are parsed from the monthly newsletter text that
+   staff paste in (or entered/fixed by hand). Nothing here is
+   ever sent to a server -- everything lives in this browser's
+   localStorage, so no personal data leaves the device.
+   ========================================================== */
+
+const STORAGE_KEY = 'rehabScheduler.classes.v2';
+const NEWSLETTER_URL = 'https://docs.google.com/document/d/e/2PACX-1vQMBsH_0N5TGu-jf4dn7LtcuKICADPAKnV8rYs9ENAGFJxMu-1-ycSgytiCAv9m9ojY1P86kuOyOXaS/pub';
+const DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'];
+const DAY_NAMES = { Mon: 'Monday', Tue: 'Tuesday', Wed: 'Wednesday', Thu: 'Thursday', Fri: 'Friday' };
+const PERIODS = ['Morning', 'Afternoon'];
+
+// The 10 priorities the student ranks, in the order given by the program.
+const THEMES = ['Gentle movement', 'Art', 'Nature/animals', 'Cooking', 'Socializing', 'Volunteering', 'Learning new skills', 'Music', 'Employment', 'Education (high school or college)'];
+
+// Best-effort keyword tagging so a pasted newsletter doesn't need staff to
+// hand-tag every class. Staff can always fix a class's tags in the review
+// table after import -- this is a starting point, not a guarantee.
+const THEME_KEYWORDS = {
+  'Gentle movement': ['yoga', 'tai chi', 'qi gong', 'walk', 'stretch', 'chair exercise', 'sassy seat', 'gentle', 'meditation', 'mindfulness', 'therapy pool', 'sauna', 'pool', 'gym', 'fitness', 'wellness', 'workout', 'exercise', 'nidra'],
+  'Art': ['art', 'craft', 'paint', 'photography', 'felting', 'cross stitch', 'embroidery', 'mask', 'drawing', 'illustrat'],
+  'Nature/animals': ['animal', 'garden', 'outdoor', 'nature', 'pet', 'zoo'],
+  'Cooking': ['cook', 'culinary', 'nutrition', 'protein', 'recipe', 'baking', 'ice cream'],
+  'Socializing': ['social', 'bingo', 'trivia', 'ice cream', 'chess', 'game', 'puzzle', 'mic', 'dance', 'forum'],
+  'Volunteering': ['volunteer', 'community service'],
+  'Learning new skills': ['computer', 'typing', 'spanish', 'skill', 'workshop', 'photography'],
+  'Music': ['music', 'harmonica', 'piano', 'playlist', 'karaoke', 'song', 'open mic', 'band'],
+  'Employment': ['job', 'resume', 'interview', 'employment', 'career', 'money matters', 'leadership'],
+  'Education (high school or college)': ['ged', 'math', 'reading', 'writing', 'study', 'tutoring', 'academic', 'school', 'computer']
+};
+
+// Structured energy/mobility options (checkboxes, not free text) so we can
+// reliably flag classes -- free text can't be safely auto-matched.
+const ENERGY_OPTIONS = [
+  { id: 'gentle_only', label: 'I need gentle activities only', riskKeywords: ['fitness', 'resistance', 'workout', 'weight', 'sport', 'bowling', 'pickleball', 'dance'] },
+  { id: 'limited_walking', label: 'Light walking is okay, but not long distances', riskKeywords: ['walk', 'hike', 'pickleball', 'bowling'] },
+  { id: 'seated_breaks', label: 'I need seated break options during activities', riskKeywords: ['standing', 'gym'] },
+  { id: 'no_lifting', label: "I'd like to avoid lifting or resistance activities", riskKeywords: ['lifting', 'resistance', 'weight'] },
+  { id: 'no_restrictions', label: 'No restrictions', riskKeywords: [] }
+];
+
+function loadClasses() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return [];
+    return JSON.parse(raw);
+  } catch (e) { return []; }
+}
+function saveClasses(list) { localStorage.setItem(STORAGE_KEY, JSON.stringify(list)); }
+function cryptoId() { return 'c_' + Math.random().toString(36).slice(2, 10); }
+function splitKeywords(text) {
+  return (text || '').split(',').map(s => s.trim().toLowerCase()).filter(Boolean);
+}
+function textMatchesAny(text, keywords) {
+  const lower = (text || '').toLowerCase();
+  return keywords.some(k => k && lower.includes(k));
+}
+function autoTagThemes(title, description) {
+  const text = (title + ' ' + description).toLowerCase();
+  return THEMES.filter(theme => (THEME_KEYWORDS[theme] || []).some(kw => text.includes(kw)));
+}
+
+/* ==========================================================
+   TIME PARSING
+   ========================================================== */
+function toMinutes(hour, minute, meridiem) {
+  let h = hour % 12;
+  if (meridiem === 'PM') h += 12;
+  return h * 60 + (minute || 0);
+}
+function parseTimeRange(raw) {
+  const m = raw.match(/^(\d{1,2})(?::(\d{2}))?\s*(AM|PM)?\s*[-–—]\s*(\d{1,2})(?::(\d{2}))?\s*(AM|PM)/i);
+  if (!m) return null;
+  let [, sh, sm, sMer, eh, em, eMer] = m;
+  eMer = eMer.toUpperCase();
+  sMer = sMer ? sMer.toUpperCase() : eMer; // "9-10 AM" -> start inherits end's AM/PM
+  const startMin = toMinutes(parseInt(sh, 10), parseInt(sm || '0', 10), sMer);
+  const endMin = toMinutes(parseInt(eh, 10), parseInt(em || '0', 10), eMer);
+  return { startMin, endMin, label: raw.trim() };
+}
+function minutesToLabel(min) {
+  let h = Math.floor(min / 60), mm = min % 60;
+  const mer = h >= 12 ? 'PM' : 'AM';
+  h = h % 12; if (h === 0) h = 12;
+  return h + (mm ? ':' + String(mm).padStart(2, '0') : '') + ' ' + mer;
+}
+function parseSingleTime(raw) {
+  const m = raw.match(/^(\d{1,2})(?::(\d{2}))?\s*(AM|PM)/i);
+  if (!m) return null;
+  const [, h, mm, mer] = m;
+  const startMin = toMinutes(parseInt(h, 10), parseInt(mm || '0', 10), mer.toUpperCase());
+  return { startMin, endMin: startMin + 60, label: raw.trim() }; // defaults to a 1-hour block; staff can adjust in the table
+}
+
+/* ==========================================================
+   NEWSLETTER PARSER (plain text pasted from the published doc)
+   Handles lines like:
+   "*9-10 AM | Health and Wellness Workout (INFO) | Jessica | Fitness Rm"
+   followed by description line(s), grouped under a day heading
+   like "MONDAY".
+   ========================================================== */
+function parseNewsletterText(raw) {
+  const lines = raw.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
+  const dayHeaderRe = /^(MONDAY|TUESDAY|WEDNESDAY|THURSDAY|FRIDAY)\b/i;
+  const entryRe = /^([*#]?)\s*([0-9:. ]+(?:AM|PM)?\s*[-–—]\s*[0-9:. ]+(?:AM|PM))\s*\|\s*(.*)$/i;
+  // fallback for lines with only a start time, no end time (e.g. "*11 AM | Class Name | ...")
+  const singleTimeRe = /^([*#]?)\s*(\d{1,2}(?::\d{2})?\s*(?:AM|PM))\s*\|\s*(.*)$/i;
+  const dayAbbrev = { MONDAY: 'Mon', TUESDAY: 'Tue', WEDNESDAY: 'Wed', THURSDAY: 'Thu', FRIDAY: 'Fri' };
+
+  let currentDay = null;
+  const results = [];
+  let skipped = 0;
+  let lastEntry = null;
+
+  for (const line of lines) {
+    const dayMatch = line.match(dayHeaderRe);
+    if (dayMatch) {
+      currentDay = dayAbbrev[dayMatch[1].toUpperCase()];
+      lastEntry = null;
+      continue;
+    }
+    const entryMatch = line.match(entryRe);
+    const singleMatch = !entryMatch && line.match(singleTimeRe);
+    if ((entryMatch || singleMatch) && currentDay) {
+      const [, prefix, timeRaw, rest] = entryMatch || singleMatch;
+      const time = entryMatch ? parseTimeRange(timeRaw) : parseSingleTime(timeRaw);
+      const parts = rest.split('|').map(p => p.replace(/\(?\s*INFO\s*\)?/gi, '').trim()).filter(Boolean);
+      const title = parts[0] || 'Untitled activity';
+      const instructor = parts[1] || '';
+      const location = parts[2] || '';
+      const mode = prefix === '*' ? 'in-person' : prefix === '#' ? 'hybrid' : 'online';
+      if (!time) { skipped++; continue; }
+      lastEntry = {
+        id: cryptoId(), day: currentDay, startMin: time.startMin, endMin: time.endMin,
+        timeLabel: time.label, title, instructor, location, mode, description: '',
+        themes: []
+      };
+      results.push(lastEntry);
+    } else if (lastEntry) {
+      // continuation / description line
+      lastEntry.description = (lastEntry.description ? lastEntry.description + ' ' : '') + line;
+    }
+  }
+  results.forEach(r => { r.themes = autoTagThemes(r.title, r.description); });
+  return { classes: results, skipped };
+}
+
+/* ==========================================================
+   OUTINGS & WORKSHOPS PARSER (for the separate PDF newsletter)
+   Different document, different shape: one-off dated events in a
+   running paragraph rather than a day-by-day list with "|" columns,
+   so it needs its own parser rather than reusing the one above.
+   ========================================================== */
+const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+function parseAmPmTime(raw) {
+  const m = raw.match(/(\d{1,2})(?::(\d{2}))?\s*(a\.?m\.?|p\.?m\.?)?\s*[-\u2013\u2014]\s*(\d{1,2})(?::(\d{2}))?\s*(a\.?m\.?|p\.?m\.?)/i);
+  if (!m) return null;
+  let [, sh, sm, sMer, eh, em, eMer] = m;
+  eMer = eMer.replace(/\./g, '').toUpperCase();
+  sMer = sMer ? sMer.replace(/\./g, '').toUpperCase() : eMer;
+  const startMin = toMinutes(parseInt(sh, 10), parseInt(sm || '0', 10), sMer);
+  const endMin = toMinutes(parseInt(eh, 10), parseInt(em || '0', 10), eMer);
+  return { startMin, endMin, label: m[0].trim(), matchedText: m[0] };
+}
+
+const OUTING_WORKSHOP_MARKER = 'ZZZWORKSHOPSECTIONZZZ';
+function cleanOutingsNoise(text) {
+  return text
+    .replace(/\d*Succeed Connection\s*\d*/gi, ' ')
+    .replace(/NextChapter Newsletter/gi, ' ')
+    .replace(new RegExp('\\b(?:' + MONTHS.join('|') + ')\\s+Outings\\b', 'gi'), ' ')
+    .replace(new RegExp('\\b(?:' + MONTHS.join('|') + ')\\s+Workshops\\b', 'gi'), ' ' + OUTING_WORKSHOP_MARKER + ' ')
+    .replace(/(?:[A-Z]\s+){3,}\d(?:\s*\d){2,}/g, ' ') // spaced-out "J U L Y 2 0 2 6" style headers
+    .replace(/Outings Continued:/gi, ' ')
+    .replace(/ATTENTION:[\s\S]*?Thank you\./i, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+const OUTING_LOCATIONS = [/Sally's Caf[e\u00e9]/i, /Art Studio/i, /Computer Lab \d+/i, /Room \d+/i, /Lab \d+/i];
+function extractOutingLocation(text) {
+  for (const re of OUTING_LOCATIONS) {
+    const m = text.match(re);
+    if (m) return { location: m[0], rest: text.replace(re, '').trim() };
+  }
+  return { location: '', rest: text };
+}
+
+// Facilitator names are short, capitalized tokens, optionally joined by
+// ",", "and", or "&" -- bounding the match this way (rather than grabbing
+// everything to the end of the details blob) is what stops it from
+// swallowing the next event's title into this event's facilitator field.
+const OUTING_NAME_TOKEN = "[A-Z][a-zA-Z']+(?:\\s[A-Z]\\.)?";
+const OUTING_FACILITATOR_RE = new RegExp('Facilitators?:\\s*(' + OUTING_NAME_TOKEN + '(?:\\s*(?:,|and|&)\\s*' + OUTING_NAME_TOKEN + '){0,3})', 'i');
+
+function parseOutingsText(raw) {
+  const text = cleanOutingsNoise(raw);
+  const workshopsBoundaryIdx = text.indexOf(OUTING_WORKSHOP_MARKER);
+  const monthPattern = MONTHS.join('|');
+  const dateGroupRe = new RegExp('(' + monthPattern + ')\\s+(\\d{1,2}(?:\\s*,\\s*\\d{1,2})*(?:\\s*&\\s*\\d{1,2})?)\\s*\\((Mon|Tue|Wed|Thu|Fri|Sat|Sun)\\w*\\)', 'gi');
+
+  const matches = [...text.matchAll(dateGroupRe)];
+  const results = [];
+  let skipped = 0;
+  let cursor = 0;
+
+  for (let idx = 0; idx < matches.length; idx++) {
+    const m = matches[idx];
+    const month = m[1];
+    const dayNums = m[2].split(/[,&]/).map(s => s.trim()).filter(Boolean);
+    const dayAbbrevRaw = m[3].slice(0, 3);
+    const dayAbbrev = DAYS.find(d => d.toLowerCase() === dayAbbrevRaw.toLowerCase());
+
+    const title = text.slice(cursor, m.index).replace(OUTING_WORKSHOP_MARKER, '').trim();
+    const isWorkshop = workshopsBoundaryIdx >= 0 && m.index > workshopsBoundaryIdx;
+    const afterDate = text.slice(m.index + m[0].length);
+    const time = parseAmPmTime(afterDate);
+    if (!time || !dayAbbrev) { skipped++; cursor = m.index + m[0].length; continue; }
+
+    const nextMatch = matches[idx + 1];
+    const searchLimit = nextMatch ? nextMatch.index : text.length;
+    const timeEndIdx = m.index + m[0].length + afterDate.indexOf(time.matchedText) + time.matchedText.length;
+    const detailsBlob = text.slice(timeEndIdx, searchLimit);
+
+    const facMatch = detailsBlob.match(OUTING_FACILITATOR_RE);
+    const facilitator = facMatch ? facMatch[1].trim() : '';
+    const notesRaw = facMatch ? detailsBlob.slice(0, facMatch.index).trim() : detailsBlob.trim();
+    const { location, rest: description } = extractOutingLocation(notesRaw);
+    const cleanDescription = description
+      .replace(/\d+\s*Spots?\s*(?:&\s*\w+\s*)?available/i, '')
+      .replace(/Seat limit(?:ation)?s?:\s*\d+/i, '')
+      .trim();
+
+    // advance cursor to just past the facilitator match (not to the next
+    // date pattern) so the NEXT entry's title starts in the right place
+    cursor = facMatch ? timeEndIdx + facMatch.index + facMatch[0].length : searchLimit;
+
+    dayNums.forEach(dayNum => {
+      const entryTitle = title || (isWorkshop ? 'Untitled workshop' : 'Untitled outing');
+      results.push({
+        id: cryptoId(),
+        title: entryTitle,
+        date: month + ' ' + dayNum,
+        day: dayAbbrev,
+        startMin: time.startMin,
+        endMin: time.endMin,
+        timeLabel: time.label,
+        location,
+        instructor: facilitator,
+        description: cleanDescription,
+        mode: 'in-person',
+        isOuting: true,
+        kind: isWorkshop ? 'workshop' : 'outing',
+        themes: autoTagThemes(entryTitle, cleanDescription)
+      });
+    });
+  }
+
+  return { classes: results, skipped };
+}
+
+/* ==========================================================
+   STUDENT QUESTIONS
+   ========================================================== */
+const QUESTIONS = [
+  { id: 'days', title: 'Number of days', prompt: 'How many days per week would you like to attend this month?', hint: "Some of these can be half-days (just mornings or just afternoons) -- let front desk know when you sign up.", type: 'single', options: ['1', '2', '3', '4', '5 (every weekday)'] },
+  { id: 'times', title: 'Preferred times', prompt: 'What times of day work best for you?', type: 'multi', options: ['Mornings', 'Afternoons', 'All day (mornings and afternoons)'] },
+  { id: 'unavailable', title: 'Not available', prompt: "Are there any days or times you're NOT available?", type: 'exclusions' },
+  { id: 'energy', title: 'Energy & mobility', prompt: 'Do you have any energy or mobility needs we should plan around?', type: 'energy' },
+  { id: 'priorities', title: 'Your priorities', prompt: 'Put these in the order that matters most to you.', hint: 'Most important at the top. Use the arrows to reorder.', type: 'rank', options: THEMES },
+  { id: 'mustInclude', title: 'Always include', prompt: "Is there anything you'd like to make sure is on your schedule, if it's offered this month?", hint: 'A few words separated by commas -- we\'ll do our best to fit a match in (for example: Chess Club, Qi Gong).', type: 'text' },
+  { id: 'hardExclude', title: 'Hard exclusions', prompt: "Any topics to skip entirely? We won't schedule these no matter what -- we'll leave that time open instead.", hint: 'A few words separated by commas (for example: clay masks, poetry, reading).', type: 'text' }
+];
+
+/* ==========================================================
+   APP STATE + ROUTER
+   ========================================================== */
+const state = {
+  mode: 'student',
+  step: 0,
+  answers: { priorities: THEMES.slice() },
+  classes: loadClasses(),
+  schedule: null
+};
+
+const root = document.getElementById('app-root');
+
+function render() {
+  root.innerHTML = '';
+  root.appendChild(renderModeSwitch());
+  if (state.mode === 'student') root.appendChild(renderStudentFlow());
+  else root.appendChild(renderStaffFlow());
+}
+
+function renderModeSwitch() {
+  const nav = document.createElement('nav');
+  nav.className = 'mode-switch no-print';
+  nav.setAttribute('aria-label', "Choose who is using this app");
+  nav.innerHTML = `
+    <button aria-current="${state.mode === 'staff'}" data-mode="staff">Start Here</button>
+    <button aria-current="${state.mode === 'student'}" data-mode="student">Build Month's Schedule</button>
+  `;
+  nav.querySelectorAll('button').forEach(btn => {
+    btn.addEventListener('click', () => { state.mode = btn.dataset.mode; state.step = 0; render(); });
+  });
+  return nav;
+}
+
+/* ---------------- STUDENT FLOW ---------------- */
+function renderStudentFlow() {
+  const wrap = document.createElement('div');
+  if (state.classes.length === 0) {
+    const banner = document.createElement('p');
+    banner.className = 'banner danger';
+    banner.textContent = "This month's activities haven't been added yet. Go to \"This Month's Activities\" to add them.";
+    wrap.appendChild(banner);
+    return wrap;
+  }
+  const totalSteps = QUESTIONS.length + 1;
+  if (state.step < QUESTIONS.length) {
+    wrap.appendChild(renderProgress(state.step, totalSteps, QUESTIONS[state.step].title + ' (' + (state.step + 1) + ' of ' + QUESTIONS.length + ')'));
+    wrap.appendChild(renderQuestionCard(QUESTIONS[state.step]));
+  } else {
+    wrap.appendChild(renderProgress(totalSteps - 1, totalSteps, 'Your schedule'));
+    wrap.appendChild(renderResultsCard());
+  }
+  return wrap;
+}
+
+function renderProgress(current, total, label) {
+  const container = document.createElement('div');
+  const ul = document.createElement('ul');
+  ul.className = 'progress';
+  ul.setAttribute('role', 'presentation');
+  for (let i = 0; i < total; i++) {
+    const li = document.createElement('li');
+    if (i < current) li.className = 'done'; else if (i === current) li.className = 'current';
+    ul.appendChild(li);
+  }
+  const p = document.createElement('p');
+  p.className = 'progress-label';
+  p.textContent = label;
+  container.appendChild(ul); container.appendChild(p);
+  return container;
+}
+
+function renderQuestionCard(q) {
+  const card = document.createElement('section');
+  card.className = 'card';
+  const fs = document.createElement('fieldset');
+  const legend = document.createElement('legend');
+  legend.id = 'q-title'; legend.tabIndex = -1; legend.textContent = q.prompt;
+  fs.appendChild(legend);
+  if (q.hint) { const hint = document.createElement('p'); hint.className = 'hint'; hint.textContent = q.hint; fs.appendChild(hint); }
+
+  if (q.type === 'text') fs.appendChild(renderTextQuestion(q));
+  else if (q.type === 'single' || q.type === 'multi') fs.appendChild(renderChoiceQuestion(q));
+  else if (q.type === 'rank') fs.appendChild(renderRankQuestion(q));
+  else if (q.type === 'exclusions') fs.appendChild(renderExclusionsQuestion(q));
+  else if (q.type === 'energy') fs.appendChild(renderEnergyQuestion(q));
+
+  card.appendChild(fs);
+  card.appendChild(renderStudentNav());
+  return card;
+}
+
+function renderTextQuestion(q) {
+  const ta = document.createElement('textarea');
+  ta.setAttribute('aria-label', q.prompt);
+  ta.value = state.answers[q.id] || '';
+  ta.addEventListener('input', () => { state.answers[q.id] = ta.value; });
+  return ta;
+}
+
+function renderChoiceQuestion(q) {
+  const grid = document.createElement('div');
+  grid.className = 'choice-grid';
+  const inputType = q.type === 'multi' ? 'checkbox' : 'radio';
+  const current = state.answers[q.id] || (q.type === 'multi' ? [] : null);
+  q.options.forEach((opt, idx) => {
+    const row = document.createElement('div');
+    const isSelected = q.type === 'multi' ? current.includes(opt) : current === opt;
+    row.className = 'choice' + (isSelected ? ' selected' : '');
+    const inputId = q.id + '-' + idx;
+    const input = document.createElement('input');
+    input.type = inputType; input.name = q.id; input.id = inputId; input.value = opt; input.checked = isSelected;
+    input.addEventListener('change', () => {
+      if (q.type === 'multi') {
+        const list = new Set(state.answers[q.id] || []);
+        if (input.checked) list.add(opt); else list.delete(opt);
+        state.answers[q.id] = Array.from(list);
+      } else { state.answers[q.id] = opt; }
+      render();
+      document.getElementById(inputId)?.focus();
+    });
+    const label = document.createElement('label'); label.htmlFor = inputId; label.textContent = opt;
+    row.appendChild(input); row.appendChild(label); grid.appendChild(row);
+  });
+  return grid;
+}
+
+function renderEnergyQuestion(q) {
+  const wrap = document.createElement('div');
+  const grid = document.createElement('div');
+  grid.className = 'choice-grid';
+  const current = state.answers.energy || [];
+  ENERGY_OPTIONS.forEach((opt, idx) => {
+    const row = document.createElement('div');
+    const isSelected = current.includes(opt.id);
+    row.className = 'choice' + (isSelected ? ' selected' : '');
+    const inputId = 'energy-' + idx;
+    const input = document.createElement('input');
+    input.type = 'checkbox'; input.id = inputId; input.checked = isSelected;
+    input.addEventListener('change', () => {
+      const list = new Set(state.answers.energy || []);
+      if (input.checked) list.add(opt.id); else list.delete(opt.id);
+      state.answers.energy = Array.from(list);
+      render();
+      document.getElementById(inputId)?.focus();
+    });
+    const label = document.createElement('label'); label.htmlFor = inputId; label.textContent = opt.label;
+    row.appendChild(input); row.appendChild(label); grid.appendChild(row);
+  });
+  wrap.appendChild(grid);
+  const label2 = document.createElement('label'); label2.className = 'field-label'; label2.htmlFor = 'energy-notes';
+  label2.textContent = 'Anything else about this you want staff to know? (optional)';
+  const ta = document.createElement('textarea'); ta.id = 'energy-notes';
+  ta.value = state.answers.energyNotes || '';
+  ta.addEventListener('input', () => { state.answers.energyNotes = ta.value; });
+  wrap.appendChild(label2); wrap.appendChild(ta);
+  return wrap;
+}
+
+function renderRankQuestion(q) {
+  const list = document.createElement('div');
+  list.className = 'choice-grid';
+  const order = state.answers.priorities || q.options.slice();
+  order.forEach((theme, idx) => {
+    const row = document.createElement('div');
+    row.className = 'choice';
+    row.style.justifyContent = 'space-between';
+    row.innerHTML = `<span><strong>${idx + 1}.</strong> ${escapeHtml(theme)}</span>`;
+    const btns = document.createElement('div');
+    const up = document.createElement('button'); up.type = 'button'; up.className = 'pill-btn'; up.textContent = '↑ Up';
+    up.setAttribute('aria-label', 'Move ' + theme + ' up'); up.disabled = idx === 0;
+    up.style.borderColor = 'var(--primary)'; up.style.color = 'var(--primary-dark)';
+    up.addEventListener('click', () => { [order[idx - 1], order[idx]] = [order[idx], order[idx - 1]]; state.answers.priorities = order; render(); });
+    const down = document.createElement('button'); down.type = 'button'; down.className = 'pill-btn'; down.textContent = 'Down ↓';
+    down.setAttribute('aria-label', 'Move ' + theme + ' down'); down.disabled = idx === order.length - 1;
+    down.style.borderColor = 'var(--primary)'; down.style.color = 'var(--primary-dark)';
+    down.addEventListener('click', () => { [order[idx + 1], order[idx]] = [order[idx], order[idx + 1]]; state.answers.priorities = order; render(); });
+    btns.appendChild(up); btns.appendChild(down);
+    row.appendChild(btns);
+    list.appendChild(row);
+  });
+  return list;
+}
+
+function renderExclusionsQuestion(q) {
+  const wrap = document.createElement('div');
+  const list = state.answers.unavailable || [];
+  const listEl = document.createElement('div');
+  function drawRows() {
+    listEl.innerHTML = '';
+    if (list.length === 0) {
+      const p = document.createElement('p'); p.className = 'hint'; p.textContent = "You haven't added any -- that's okay if you're flexible.";
+      listEl.appendChild(p);
+    }
+    list.forEach((row, idx) => {
+      const rowEl = document.createElement('div');
+      rowEl.className = 'exclusion-row';
+      const daySel = document.createElement('select');
+      daySel.setAttribute('aria-label', 'Day not available, row ' + (idx + 1));
+      DAYS.forEach(d => { const o = document.createElement('option'); o.value = d; o.textContent = DAY_NAMES[d]; if (row.day === d) o.selected = true; daySel.appendChild(o); });
+      daySel.addEventListener('change', () => { row.day = daySel.value; });
+      const startInput = document.createElement('input'); startInput.type = 'time'; startInput.value = row.start || '';
+      startInput.setAttribute('aria-label', 'Start time, row ' + (idx + 1));
+      startInput.addEventListener('change', () => { row.start = startInput.value; });
+      const toSpan = document.createElement('span'); toSpan.textContent = 'to';
+      const endInput = document.createElement('input'); endInput.type = 'time'; endInput.value = row.end || '';
+      endInput.setAttribute('aria-label', 'End time, row ' + (idx + 1));
+      endInput.addEventListener('change', () => { row.end = endInput.value; });
+      const removeBtn = document.createElement('button'); removeBtn.className = 'pill-btn'; removeBtn.textContent = 'Remove';
+      removeBtn.setAttribute('aria-label', 'Remove this time, row ' + (idx + 1));
+      removeBtn.addEventListener('click', () => { list.splice(idx, 1); state.answers.unavailable = list; render(); });
+      rowEl.appendChild(daySel); rowEl.appendChild(startInput); rowEl.appendChild(toSpan); rowEl.appendChild(endInput); rowEl.appendChild(removeBtn);
+      listEl.appendChild(rowEl);
+    });
+  }
+  drawRows();
+  wrap.appendChild(listEl);
+  const addBtn = document.createElement('button'); addBtn.type = 'button'; addBtn.className = 'btn secondary'; addBtn.style.marginTop = '12px';
+  addBtn.textContent = '+ Add a time';
+  addBtn.addEventListener('click', () => { list.push({ day: DAYS[list.length % DAYS.length], start: '', end: '' }); state.answers.unavailable = list; render(); });
+  wrap.appendChild(addBtn);
+  return wrap;
+}
+
+function renderStudentNav() {
+  const row = document.createElement('div');
+  row.className = 'btn-row';
+  const back = document.createElement('button'); back.className = 'btn secondary'; back.textContent = 'Back';
+  back.disabled = state.step === 0;
+  back.addEventListener('click', () => { state.step = Math.max(0, state.step - 1); render(); });
+  const next = document.createElement('button'); next.className = 'btn primary';
+  const isLast = state.step === QUESTIONS.length - 1;
+  next.textContent = isLast ? 'Build my schedule' : 'Next';
+  next.addEventListener('click', () => {
+    if (isLast) state.schedule = buildSchedule();
+    state.step += 1;
+    render();
+    root.querySelector('#q-title, h2')?.focus?.();
+  });
+  row.appendChild(back); row.appendChild(next);
+  return row;
+}
+
+/* ==========================================================
+   SCHEDULING ALGORITHM
+   ========================================================== */
+/* ==========================================================
+   DATE HELPERS -- for the week-by-week monthly view
+   ========================================================== */
+function getWeeksInMonth(year, month) {
+  const last = new Date(year, month + 1, 0);
+  const weeks = [];
+  let cursor = new Date(year, month, 1);
+  const dow = cursor.getDay();
+  cursor.setDate(cursor.getDate() + (dow === 0 ? -6 : 1 - dow)); // rewind to Monday
+  while (cursor <= last) {
+    const dates = [];
+    for (let i = 0; i < 5; i++) { dates.push(new Date(cursor)); cursor.setDate(cursor.getDate() + 1); }
+    cursor.setDate(cursor.getDate() + 2); // skip weekend
+    if (dates.some(d => d.getMonth() === month)) weeks.push(dates);
+  }
+  return weeks;
+}
+// Which month/year is this schedule actually for? Prefer the month found in
+// the loaded outings/workshops data (since that's dated content tied to a
+// specific month) over "whatever today's date happens to be" -- otherwise
+// loading next month's newsletter early produces a schedule dated for the
+// wrong month.
+function getScheduleYearMonth() {
+  const dated = state.classes.find(c => c.isOuting && c.date);
+  if (dated) {
+    const d = parseOutingDateStringWithYear(dated.date, new Date().getFullYear());
+    if (d) return { year: d.getFullYear(), month: d.getMonth() };
+  }
+  const now = new Date();
+  return { year: now.getFullYear(), month: now.getMonth() };
+}
+function parseOutingDateStringWithYear(dateStr, year) {
+  if (!dateStr) return null;
+  const m = String(dateStr).trim().match(new RegExp('^(' + MONTHS.join('|') + ')\\s+(\\d{1,2})', 'i'));
+  if (!m) return null;
+  const monthIdx = MONTHS.findIndex(mo => mo.toLowerCase() === m[1].toLowerCase());
+  if (monthIdx < 0) return null;
+  return new Date(year, monthIdx, parseInt(m[2], 10));
+}
+function formatDate(d) { return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }); }
+function parseOutingDateString(dateStr, year) {
+  return parseOutingDateStringWithYear(dateStr, year || new Date().getFullYear());
+}
+function sameDate(a, b) { return a && b && a.getMonth() === b.getMonth() && a.getDate() === b.getDate(); }
+
+function scoreCandidate(c, rankScore, alwaysInclude, riskKeywords) {
+  let score = 1; // base score so any non-excluded activity beats an empty slot
+  (c.themes || []).forEach(t => { score += rankScore[t] || 0; });
+  const mustHave = alwaysInclude.length > 0 && textMatchesAny(c.title + ' ' + c.description, alwaysInclude);
+  if (mustHave) score += 1000; // wins outright over anything else offered at the same time
+  const flagged = textMatchesAny(c.title + ' ' + c.description, riskKeywords);
+  if (flagged) score -= 6;
+  return { score, mustHave, flagged };
+}
+function pickTop(candidates, max) {
+  return candidates.slice().sort((a, b) => b._score - a._score || a.startMin - b.startMin || a.title.localeCompare(b.title)).slice(0, max);
+}
+
+function buildSchedule() {
+  const a = state.answers;
+  const priorities = a.priorities || THEMES.slice();
+  const rankScore = {};
+  priorities.forEach((theme, i) => { rankScore[theme] = priorities.length - i; });
+
+  const wantedTimes = a.times || [];
+  const allowMorning = wantedTimes.length === 0 || wantedTimes.includes('Mornings') || wantedTimes.includes('All day (mornings and afternoons)');
+  const allowAfternoon = wantedTimes.length === 0 || wantedTimes.includes('Afternoons') || wantedTimes.includes('All day (mornings and afternoons)');
+
+  const exclusions = (a.unavailable || []).map(e => {
+    const [sh, sm] = (e.start || '0:0').split(':').map(Number);
+    const [eh, em] = (e.end || '0:0').split(':').map(Number);
+    return { day: e.day, start: sh * 60 + sm, end: eh * 60 + em };
+  });
+  const energySelected = a.energy || [];
+  const riskKeywords = ENERGY_OPTIONS.filter(o => energySelected.includes(o.id)).flatMap(o => o.riskKeywords);
+  const alwaysInclude = splitKeywords(a.mustInclude);
+  const hardExclude = splitKeywords(a.hardExclude);
+  const dayCountAnswer = a.days || '5 (every weekday)';
+  const dayCount = parseInt(dayCountAnswer, 10) || 5;
+
+  function passesFilters(c, day) {
+    if (textMatchesAny(c.title + ' ' + c.description, hardExclude)) return false;
+    return !exclusions.some(ex => ex.day === day && c.startMin < ex.end && c.endMin > ex.start);
+  }
+
+  const regularClasses = state.classes.filter(c => !c.isOuting && !c.canceled);
+  const outings = state.classes.filter(c => c.isOuting && !c.canceled);
+
+  // ---- which weekdays make the recurring pattern, based on regular classes only ----
+  const dayTotals = {};
+  DAYS.forEach(day => {
+    let total = 0;
+    PERIODS.forEach(period => {
+      if (period === 'Morning' && !allowMorning) return;
+      if (period === 'Afternoon' && !allowAfternoon) return;
+      let candidates = regularClasses.filter(c => c.day === day && (period === 'Morning' ? c.startMin < 720 : c.startMin >= 720));
+      candidates = candidates.filter(c => passesFilters(c, day));
+      candidates.forEach(c => { c._score = scoreCandidate(c, rankScore, alwaysInclude, riskKeywords).score; });
+      total += pickTop(candidates, 2).reduce((sum, c) => sum + c._score, 0);
+    });
+    dayTotals[day] = total;
+  });
+  const chosenDays = DAYS.filter(d => DAYS
+    .map(x => ({ x, total: dayTotals[x] }))
+    .sort((p, q) => q.total - p.total)
+    .slice(0, dayCount)
+    .some(p => p.x === d));
+
+  // ---- week-by-week dated schedule ----
+  const { year: scheduleYear, month: scheduleMonth } = getScheduleYearMonth();
+  const weeks = getWeeksInMonth(scheduleYear, scheduleMonth);
+  const scheduleWeeks = weeks.map((weekDates, wi) => {
+    const days = [];
+    DAYS.forEach((day, di) => {
+      const date = weekDates[di];
+      const isChosenDay = chosenDays.includes(day);
+      const items = [];
+
+      PERIODS.forEach(period => {
+        if (period === 'Morning' && !allowMorning) return;
+        if (period === 'Afternoon' && !allowAfternoon) return;
+        const inPeriod = c => (period === 'Morning' ? c.startMin < 720 : c.startMin >= 720);
+
+        let candidates = isChosenDay ? regularClasses.filter(c => c.day === day && inPeriod(c)) : [];
+        const outingsThisDate = outings.filter(c => sameDate(parseOutingDateString(c.date, scheduleYear), date) && inPeriod(c));
+        candidates = candidates.concat(outingsThisDate).filter(c => passesFilters(c, day));
+        if (candidates.length === 0) return;
+
+        candidates.forEach(c => {
+          const s = scoreCandidate(c, rankScore, alwaysInclude, riskKeywords);
+          c._score = s.score; c._mustHave = s.mustHave; c._flagged = s.flagged;
+        });
+        // on a day that isn't part of the recurring pattern, only surface an outing
+        // (never a random class that wouldn't otherwise be part of the plan)
+        const winners = isChosenDay ? pickTop(candidates, 2) : pickTop(candidates.filter(c => c.isOuting), 1);
+
+        winners.forEach(c => items.push({
+          title: c.title, timeLabel: c.timeLabel, startMin: c.startMin, location: c.location,
+          instructor: c.instructor, mode: c.mode, description: c.description,
+          mustHave: c._mustHave, flagged: c._flagged, isOuting: !!c.isOuting, kind: c.kind, sourceId: c.id
+        }));
+      });
+
+      if (items.length > 0) {
+        items.sort((x, y) => (x.startMin || 0) - (y.startMin || 0));
+        days.push({ day, dayName: DAY_NAMES[day], date: formatDate(date), rawDate: date, items });
+      }
+    });
+    return { label: 'WEEK ' + (wi + 1) + ' (' + formatDate(weekDates[0]) + ' \u2013 ' + formatDate(weekDates[4]) + ')', days };
+  }).filter(w => w.days.length > 0);
+
+  return { weeks: scheduleWeeks, chosenDays };
+}
+
+/* ==========================================================
+   PRINTABLE SCHEDULE (opens in a new tab, then prints from there)
+   When this page is embedded in a sandboxed iframe (e.g. a Google
+   Sites "Embed code" block), window.print() called on the embedded
+   page itself is silently blocked. Opening a genuine new tab and
+   calling print() from inside THAT tab sidesteps the restriction,
+   because the new tab is a normal, non-sandboxed browsing context.
+   ========================================================== */
+function itemEmoji(it) {
+  if (!it.isOuting) return '\ud83d\udccb'; // 📋 regular class
+  if (it.kind === 'workshop') return '\ud83e\uddd1\u200d\ud83c\udfeb'; // 🧑‍🏫 workshop
+  return '\u2b50'; // ⭐ outing
+}
+const LEGEND_TEXT = 'LEGEND\n\ud83d\udccb = structured class, planned regular attendance\n\u2b50 = outing, must sign up (add a number beside the star for your own priority order)\n\ud83e\uddd1\u200d\ud83c\udfeb = workshop, must sign up';
+const LEGEND_HTML = '<p><strong>LEGEND</strong><br>\ud83d\udccb = structured class, planned regular attendance<br>\u2b50 = outing, must sign up (add a number beside the star for your own priority order)<br>\ud83e\uddd1\u200d\ud83c\udfeb = workshop, must sign up</p>';
+function buildPrintableHtml(sched) {
+  const weekBlocks = (sched?.weeks || []).map(week => {
+    const dayBlocks = week.days.map(d => {
+      const items = d.items.map(it =>
+        `<li>${itemEmoji(it)} <strong>${escapeHtml(it.title)}</strong> \u2014 ${escapeHtml(it.timeLabel || '')}${it.location ? ', ' + escapeHtml(it.location) : ''}${it.instructor ? ', ' + escapeHtml(it.instructor) : ''}${it.isOuting ? ' (' + (it.kind === 'workshop' ? 'Workshop' : 'Outing') + ' \u2014 sign up at front desk)' : ''}${it.description ? '<br><span style="color:#45564F">' + escapeHtml(it.description) + '</span>' : ''}</li>`
+      ).join('');
+      return `<h3>${escapeHtml(d.dayName)}, ${escapeHtml(d.date)}</h3><ul>${items}</ul>`;
+    }).join('');
+    return `<h2>${escapeHtml(week.label)}</h2>${dayBlocks}`;
+  }).join('');
+
+  return `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>My Schedule</title>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap');
+      body{font-family:'Atkinson Hyperlegible',Arial,Helvetica,sans-serif;font-size:16px;color:#1F2E2B;max-width:680px;margin:24px auto;padding:0 16px;line-height:1.55;}
+      h1{color:#234F45;} h2{color:#2F6F62;margin-top:28px;border-bottom:2px solid #C9D2C6;padding-bottom:4px;}
+      h3{color:#1F2E2B;margin:16px 0 4px;font-size:1.05rem;}
+      ul{padding-left:20px;} li{margin-bottom:10px;line-height:1.5;}
+      .print-btn{margin:16px 0;padding:10px 20px;font-size:1rem;border-radius:999px;border:2px solid #2F6F62;background:#2F6F62;color:#fff;cursor:pointer;min-height:44px;}
+      @media print { .print-btn{display:none;} }
+    </style></head><body>
+    <h1>My NextChapter Schedule</h1>
+    <button class="print-btn" onclick="window.print()">Print this page</button>
+    ${weekBlocks || '<p>No matching activities were found.</p>'}
+    ${weekBlocks ? LEGEND_HTML : ''}
+    </body></html>`;
+}
+
+function openPrintableSchedule(sched) {
+  const html = buildPrintableHtml(sched);
+  const win = window.open('', '_blank');
+  if (!win) {
+    alert('Your browser blocked the new tab. Please allow pop-ups for this page and try again.');
+    return;
+  }
+  win.document.open();
+  win.document.write(html);
+  win.document.close();
+  win.onload = () => { try { win.focus(); win.print(); } catch (e) {} };
+  setTimeout(() => { try { win.focus(); win.print(); } catch (e) {} }, 400);
+}
+
+/* ==========================================================
+   GOOGLE DOC EXPORT (no backend -- copies text, opens a blank Doc)
+   ========================================================== */
+function scheduleToPlainText(sched) {
+  if (!sched || !sched.weeks.length) return 'No matching activities were found.';
+  const body = sched.weeks.map(week => {
+    const lines = [];
+    week.days.forEach(d => {
+      d.items.forEach(it => {
+        lines.push(itemEmoji(it) + ' ' + d.dayName + ', ' + d.date + ' | ' + (it.timeLabel || '') + ' | ' + it.title + ' (' + capitalize(it.mode) + (it.location ? ', ' + it.location : '') + ')' + (it.isOuting ? ' [' + (it.kind === 'workshop' ? 'Workshop' : 'Outing') + ' -- sign up at front desk]' : '') + (it.description ? ' \u2014 ' + it.description : ''));
+      });
+    });
+    return week.label + '\n' + lines.join('\n');
+  }).join('\n\n');
+  return body + '\n\n' + LEGEND_TEXT;
+}
+
+function scheduleToHtml(sched) {
+  if (!sched || !sched.weeks.length) return '<p>No matching activities were found.</p>';
+  const weekBlocks = sched.weeks.map(week => {
+    const dayBlocks = week.days.map(d => {
+      const items = d.items.map(it =>
+        `<li>${itemEmoji(it)} <strong>${escapeHtml(it.title)}</strong> \u2014 ${escapeHtml(it.timeLabel || '')}${it.location ? ', ' + escapeHtml(it.location) : ''}${it.isOuting ? ' (' + (it.kind === 'workshop' ? 'Workshop' : 'Outing') + ' \u2014 sign up at front desk)' : ''}${it.description ? '<br><span style="color:#45564F">' + escapeHtml(it.description) + '</span>' : ''}</li>`
+      ).join('');
+      return `<p><strong>${escapeHtml(d.dayName)}, ${escapeHtml(d.date)}</strong></p><ul>${items}</ul>`;
+    }).join('');
+    return `<h2>${escapeHtml(week.label)}</h2>${dayBlocks}`;
+  }).join('');
+  return weekBlocks + LEGEND_HTML;
+}
+
+async function copyTextToClipboard(text) {
+  try { await navigator.clipboard.writeText(text); return true; } catch (e) {}
+  try {
+    const ta = document.createElement('textarea');
+    ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta); ta.focus(); ta.select();
+    const ok = document.execCommand('copy');
+    document.body.removeChild(ta);
+    return ok;
+  } catch (e) { return false; }
+}
+
+function showManualCopyBox(text, afterEl) {
+  const existing = document.getElementById('manual-copy-box');
+  if (existing) existing.remove();
+  const ta = document.createElement('textarea');
+  ta.id = 'manual-copy-box';
+  ta.value = text; ta.readOnly = true; ta.style.minHeight = '160px'; ta.className = 'no-print';
+  ta.setAttribute('aria-label', 'Schedule text to copy manually');
+  afterEl.insertAdjacentElement('afterend', ta);
+  ta.focus(); ta.select();
+}
+
+async function copyRichToClipboard(html, text) {
+  if (navigator.clipboard && window.ClipboardItem) {
+    try {
+      const item = new ClipboardItem({
+        'text/html': new Blob([html], { type: 'text/html' }),
+        'text/plain': new Blob([text], { type: 'text/plain' })
+      });
+      await navigator.clipboard.write([item]);
+      return true;
+    } catch (e) { /* fall through to plain text */ }
+  }
+  return copyTextToClipboard(text);
+}
+
+function openInGoogleDoc(sched, statusEl) {
+  const text = scheduleToPlainText(sched);
+  const html = scheduleToHtml(sched);
+  // Open the blank Doc FIRST and synchronously, so the browser still
+  // treats this as a direct result of the click (avoids pop-up blocking).
+  window.open('https://docs.google.com/document/create', '_blank');
+  copyRichToClipboard(html, text).then(ok => {
+    statusEl.textContent = ok
+      ? 'Copied! Switch to the new Google Doc tab and paste with Ctrl/Cmd+V.'
+      : "Couldn't copy automatically \u2014 select and copy the text below, then paste it into the new Doc tab.";
+    if (!ok) showManualCopyBox(text, statusEl);
+  });
+}
+
+function getCandidatesForDay(dayEntry) {
+  const shownIds = new Set(dayEntry.items.map(i => i.sourceId).filter(Boolean));
+  const regular = state.classes.filter(c => !c.isOuting && !c.canceled && c.day === dayEntry.day && !shownIds.has(c.id));
+  const outingsHere = state.classes.filter(c => c.isOuting && !c.canceled && dayEntry.rawDate &&
+    sameDate(parseOutingDateString(c.date, dayEntry.rawDate.getFullYear()), dayEntry.rawDate) && !shownIds.has(c.id));
+  return regular.concat(outingsHere).sort((a, b) => (a.startMin || 0) - (b.startMin || 0));
+}
+
+function renderResultsCard() {
+  const card = document.createElement('section');
+  card.className = 'card';
+  const h2 = document.createElement('h2'); h2.tabIndex = -1; h2.style.color = 'var(--primary-dark)'; h2.textContent = 'Your suggested schedule';
+  card.appendChild(h2);
+  const p = document.createElement('p'); p.className = 'hint';
+  p.textContent = 'Check off activities you plan to attend. Outings and workshops often need sign-up in advance at the front desk -- consider signing up for those early in the month.';
+  card.appendChild(p);
+
+  const sched = state.schedule;
+  if (!sched || sched.weeks.length === 0) {
+    const banner = document.createElement('p'); banner.className = 'banner info';
+    banner.textContent = "We couldn't build a schedule from the current activities and answers. A staff member can help you build one in person.";
+    card.appendChild(banner);
+  } else {
+    let checkboxIdx = 0;
+    sched.weeks.forEach(week => {
+      const weekHeading = document.createElement('h3'); weekHeading.style.color = 'var(--primary-dark)'; weekHeading.style.marginTop = '24px';
+      weekHeading.textContent = week.label;
+      card.appendChild(weekHeading);
+      week.days.forEach(dayEntry => {
+        const dayHeading = document.createElement('h4'); dayHeading.style.color = 'var(--ink)'; dayHeading.style.margin = '14px 0 6px';
+        dayHeading.textContent = dayEntry.dayName + ', ' + dayEntry.date;
+        card.appendChild(dayHeading);
+        dayEntry.items.forEach((entry, itemIdx) => {
+          const item = document.createElement('div'); item.className = 'result-item';
+          const cbId = 'r-' + (checkboxIdx++);
+          item.innerHTML = `
+            <input type="checkbox" id="${cbId}">
+            <div>
+              <label for="${cbId}" class="r-title">${escapeHtml(entry.title)}</label>
+              <div class="r-highlight">${escapeHtml(entry.timeLabel || '')}${entry.location ? ' &middot; ' + escapeHtml(entry.location) : ''}</div>
+              ${(entry.instructor || entry.mode || entry.description) ? `<details class="r-more"><summary>More details</summary><div class="r-meta">${escapeHtml(capitalize(entry.mode))}${entry.instructor ? ' &middot; ' + escapeHtml(entry.instructor) : ''}${entry.description ? '<br>' + escapeHtml(entry.description) : ''}</div></details>` : ''}
+              ${entry.isOuting ? '<span class="badge" style="background:var(--accent)">' + (entry.kind === 'workshop' ? 'Workshop' : 'Outing') + ' \u2014 sign up at front desk</span>' : ''}
+              ${entry.mustHave ? '<span class="badge">You asked for this</span>' : ''}
+              ${entry.flagged ? '<span class="badge" style="background:var(--support)">Double-check with staff</span>' : ''}
+            </div>`;
+          const removeBtn = document.createElement('button');
+          removeBtn.type = 'button'; removeBtn.className = 'pill-btn no-print';
+          removeBtn.textContent = 'Remove';
+          removeBtn.setAttribute('aria-label', 'Remove ' + entry.title + ' from ' + dayEntry.dayName + ', ' + dayEntry.date);
+          removeBtn.addEventListener('click', () => { dayEntry.items.splice(itemIdx, 1); render(); });
+          item.querySelector('div').appendChild(removeBtn);
+          card.appendChild(item);
+        });
+
+        const candidates = getCandidatesForDay(dayEntry);
+        if (candidates.length > 0) {
+          const addWrap = document.createElement('div'); addWrap.className = 'btn-row no-print';
+          const select = document.createElement('select');
+          select.setAttribute('aria-label', 'Add another activity to ' + dayEntry.dayName + ', ' + dayEntry.date);
+          candidates.forEach(c => {
+            const opt = document.createElement('option');
+            opt.value = c.id;
+            opt.textContent = c.title + ' (' + c.timeLabel + ')';
+            select.appendChild(opt);
+          });
+          const addBtn = document.createElement('button');
+          addBtn.type = 'button'; addBtn.className = 'btn secondary';
+          addBtn.textContent = '+ Add to this day';
+          addBtn.addEventListener('click', () => {
+            const chosen = candidates.find(c => c.id === select.value);
+            if (!chosen) return;
+            dayEntry.items.push({
+              title: chosen.title, timeLabel: chosen.timeLabel, startMin: chosen.startMin, location: chosen.location,
+              instructor: chosen.instructor, mode: chosen.mode, description: chosen.description,
+              mustHave: false, flagged: false, isOuting: !!chosen.isOuting, kind: chosen.kind, sourceId: chosen.id
+            });
+            dayEntry.items.sort((a, b) => (a.startMin || 0) - (b.startMin || 0));
+            render();
+          });
+          addWrap.appendChild(select); addWrap.appendChild(addBtn);
+          card.appendChild(addWrap);
+        }
+      });
+    });
+  }
+
+  const row = document.createElement('div'); row.className = 'btn-row';
+  const back = document.createElement('button'); back.className = 'btn secondary no-print'; back.textContent = 'Back to questions';
+  back.addEventListener('click', () => { state.step = QUESTIONS.length - 1; render(); });
+  const startOver = document.createElement('button'); startOver.className = 'btn secondary no-print'; startOver.textContent = 'Start over';
+  startOver.addEventListener('click', () => { state.step = 0; state.answers = { priorities: THEMES.slice() }; state.schedule = null; render(); });
+  const printBtn = document.createElement('button'); printBtn.className = 'btn primary no-print'; printBtn.textContent = 'Print / save as PDF';
+  printBtn.addEventListener('click', () => openPrintableSchedule(sched));
+  const docBtn = document.createElement('button'); docBtn.className = 'btn secondary no-print'; docBtn.textContent = 'Open in Google Doc';
+  const docStatus = document.createElement('p'); docStatus.className = 'hint no-print'; docStatus.setAttribute('aria-live', 'polite');
+  docBtn.addEventListener('click', () => openInGoogleDoc(sched, docStatus));
+  row.appendChild(back); row.appendChild(startOver); row.appendChild(printBtn); row.appendChild(docBtn);
+  card.appendChild(row);
+  card.appendChild(docStatus);
+  return card;
+}
+
+/* ---------------- STAFF FLOW ---------------- */
+function renderStaffFlow() {
+  const wrap = document.createElement('div');
+  wrap.appendChild(renderClassScheduleImportCard());
+  wrap.appendChild(renderOutingsImportCard());
+  wrap.appendChild(renderReviewTableCard());
+  return wrap;
+}
+
+function renderClassScheduleImportCard() {
+  const card = document.createElement('section');
+  card.className = 'card';
+  const h2 = document.createElement('h2'); h2.style.color = 'var(--primary-dark)'; h2.textContent = "Add this month's regular classes";
+  card.appendChild(h2);
+
+  const steps = document.createElement('ol');
+  steps.style.paddingLeft = '20px';
+  steps.style.color = 'var(--ink-soft)';
+  steps.innerHTML = `
+    <li>Open the Daily Class Schedule and select all the text (Ctrl/Cmd+A), then copy it (Ctrl/Cmd+C). <a href="${NEWSLETTER_URL}" target="_blank" rel="noopener">Open the schedule</a></li>
+    <li>Paste it into the box below.</li>
+    <li>Click "Read pasted text."</li>
+    <li>Check the table underneath and fix anything that looks off.</li>
+    <li>Add anything by hand that didn't get picked up.</li>
+  `;
+  card.appendChild(steps);
+
+  const textarea = document.createElement('textarea');
+  textarea.style.minHeight = '160px';
+  textarea.setAttribute('aria-label', 'Pasted class schedule text');
+  textarea.placeholder = 'Paste the daily class schedule text here...';
+  card.appendChild(textarea);
+
+  const parseRow = document.createElement('div'); parseRow.className = 'btn-row';
+  const parseBtn = document.createElement('button'); parseBtn.className = 'btn primary'; parseBtn.textContent = 'Read pasted text';
+  const resultMsg = document.createElement('p'); resultMsg.className = 'hint';
+  parseBtn.addEventListener('click', () => {
+    const { classes, skipped } = parseNewsletterText(textarea.value);
+    if (classes.length === 0) {
+      resultMsg.textContent = "Nothing recognizable was found. Make sure you copied the full page, including the day headings (MONDAY, TUESDAY, etc).";
+      resultMsg.className = 'banner danger';
+      return;
+    }
+    state.classes = state.classes.concat(classes);
+    saveClasses(state.classes);
+    resultMsg.className = 'banner success';
+    resultMsg.textContent = `Added ${classes.length} classes` + (skipped ? ` (${skipped} lines had a time we couldn't read -- add those by hand below if needed).` : '.') + ' Review the table below and fix anything that looks off.';
+    render();
+  });
+  parseRow.appendChild(parseBtn);
+  card.appendChild(parseRow);
+  card.appendChild(resultMsg);
+  return card;
+}
+
+function renderOutingsImportCard() {
+  const card = document.createElement('section');
+  card.className = 'card';
+  const h2 = document.createElement('h2'); h2.style.color = 'var(--primary-dark)'; h2.textContent = "Add this month's outings & workshops";
+  card.appendChild(h2);
+
+  const steps = document.createElement('ol');
+  steps.style.paddingLeft = '20px';
+  steps.style.color = 'var(--ink-soft)';
+  steps.innerHTML = `
+    <li>Open the Outings & Workshops PDF and select all the text (Ctrl/Cmd+A), then copy it (Ctrl/Cmd+C).</li>
+    <li>Paste it into the box below.</li>
+    <li>Click "Read pasted text."</li>
+    <li>Check the table underneath and fix anything that looks off.</li>
+  `;
+  card.appendChild(steps);
+
+  const textarea = document.createElement('textarea');
+  textarea.style.minHeight = '160px';
+  textarea.setAttribute('aria-label', 'Pasted outings and workshops text');
+  textarea.placeholder = 'Paste the outings & workshops PDF text here...';
+  card.appendChild(textarea);
+
+  const parseRow = document.createElement('div'); parseRow.className = 'btn-row';
+  const parseBtn = document.createElement('button'); parseBtn.className = 'btn primary'; parseBtn.textContent = 'Read pasted text';
+  const resultMsg = document.createElement('p'); resultMsg.className = 'hint';
+  parseBtn.addEventListener('click', () => {
+    const { classes, skipped } = parseOutingsText(textarea.value);
+    if (classes.length === 0) {
+      resultMsg.textContent = "Nothing recognizable was found. Make sure you copied the full document.";
+      resultMsg.className = 'banner danger';
+      return;
+    }
+    state.classes = state.classes.concat(classes);
+    saveClasses(state.classes);
+    resultMsg.className = 'banner success';
+    resultMsg.textContent = `Added ${classes.length} outings & workshops` + (skipped ? ` (${skipped} entries couldn't be read -- add those by hand below if needed).` : '.') + ' Review the table below and fix anything that looks off.';
+    render();
+  });
+  parseRow.appendChild(parseBtn);
+  card.appendChild(parseRow);
+  card.appendChild(resultMsg);
+  return card;
+}
+
+function renderReviewTableCard() {
+  const card = document.createElement('section');
+  card.className = 'card';
+  const h2 = document.createElement('h2'); h2.style.color = 'var(--primary-dark)'; h2.textContent = `This month's activities (${state.classes.length})`;
+  card.appendChild(h2);
+  const p = document.createElement('p'); p.className = 'hint';
+  p.textContent = 'Fix anything the automatic reading got wrong, or add activities by hand. "Date" only applies to outings/workshops -- leave it blank for a regular weekly class. This list is stored only in this browser.';
+  card.appendChild(p);
+
+  const table = document.createElement('table'); table.className = 'admin-table';
+  table.innerHTML = `<thead><tr>
+      <th scope="col">Title</th><th scope="col">Day</th><th scope="col">Date</th><th scope="col">Time</th>
+      <th scope="col">Mode</th><th scope="col">Location</th><th scope="col">Themes (auto)</th><th scope="col">Remove</th>
+    </tr></thead>`;
+  const tbody = document.createElement('tbody');
+  state.classes.forEach((c, idx) => {
+    const tr = document.createElement('tr');
+    tr.appendChild(makeTextCell(c, idx, 'title', 'Title'));
+    tr.appendChild(makeSelectCell(c, idx, 'day', DAYS, DAY_NAMES));
+    tr.appendChild(makeTextCell(c, idx, 'date', 'e.g. July 6 (outings only)'));
+    tr.appendChild(makeTextCell(c, idx, 'timeLabel', 'e.g. 9-10 AM'));
+    tr.appendChild(makeSelectCell(c, idx, 'mode', ['online', 'hybrid', 'in-person']));
+    tr.appendChild(makeTextCell(c, idx, 'location', 'Location'));
+    const themeTd = document.createElement('td'); themeTd.textContent = (c.themes || []).join(', ') || '—';
+    tr.appendChild(themeTd);
+    const removeTd = document.createElement('td');
+    const removeBtn = document.createElement('button'); removeBtn.className = 'pill-btn'; removeBtn.textContent = 'Remove';
+    removeBtn.addEventListener('click', () => { state.classes.splice(idx, 1); saveClasses(state.classes); render(); });
+    removeTd.appendChild(removeBtn); tr.appendChild(removeTd);
+    tbody.appendChild(tr);
+  });
+  table.appendChild(tbody);
+  card.appendChild(table);
+
+  const addBtn = document.createElement('button'); addBtn.className = 'btn secondary'; addBtn.style.marginTop = '16px';
+  addBtn.textContent = '+ Add a class by hand';
+  addBtn.addEventListener('click', () => {
+    state.classes.push({ id: cryptoId(), title: '', day: 'Mon', startMin: 540, endMin: 600, timeLabel: '9-10 AM', mode: 'in-person', location: '', instructor: '', description: '', themes: [] });
+    saveClasses(state.classes); render();
+  });
+  card.appendChild(addBtn);
+  const clearBtn = document.createElement('button'); clearBtn.className = 'pill-btn'; clearBtn.style.marginLeft = '10px'; clearBtn.style.marginTop = '16px';
+  clearBtn.textContent = 'Clear all classes';
+  clearBtn.addEventListener('click', () => { if (confirm('Remove all classes for this month?')) { state.classes = []; saveClasses(state.classes); render(); } });
+  card.appendChild(clearBtn);
+  return card;
+}
+
+function makeTextCell(c, idx, field, placeholder) {
+  const td = document.createElement('td');
+  const input = document.createElement('input'); input.type = 'text'; input.value = c[field] || ''; input.placeholder = placeholder;
+  input.setAttribute('aria-label', placeholder);
+  input.addEventListener('input', () => {
+    state.classes[idx][field] = input.value;
+    if (field === 'timeLabel') {
+      const t = parseTimeRange(input.value);
+      if (t) { state.classes[idx].startMin = t.startMin; state.classes[idx].endMin = t.endMin; }
+    }
+    if (field === 'title') state.classes[idx].themes = autoTagThemes(state.classes[idx].title, state.classes[idx].description);
+    saveClasses(state.classes);
+  });
+  td.appendChild(input); return td;
+}
+function makeSelectCell(c, idx, field, options, labels) {
+  const td = document.createElement('td');
+  const select = document.createElement('select'); select.setAttribute('aria-label', field);
+  options.forEach(opt => { const o = document.createElement('option'); o.value = opt; o.textContent = labels ? labels[opt] : opt; if (c[field] === opt) o.selected = true; select.appendChild(o); });
+  select.addEventListener('change', () => { state.classes[idx][field] = select.value; saveClasses(state.classes); });
+  td.appendChild(select); return td;
+}
+
+function capitalize(s) { return s ? s.charAt(0).toUpperCase() + s.slice(1) : ''; }
+function escapeHtml(str) { const div = document.createElement('div'); div.textContent = str == null ? '' : String(str); return div.innerHTML; }
+
+render();
+  </script>
+</body>
+</html>
