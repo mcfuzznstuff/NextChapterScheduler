@@ -19,7 +19,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap');
 
 :root {
-    --gray: #DCDCDC;
   --paper: #EFF2ED;
   --paper-raised: #FFFFFF;
   --ink: #1F2E2B;
@@ -54,7 +53,7 @@ html { scroll-behavior: smooth; }
 body {
   margin: 0;
   font-family: 'Atkinson Hyperlegible', -apple-system, Segoe UI, sans-serif;
-  background: var(--gray);
+  background: var(--paper);
   color: var(--ink);
   font-size: 18px;
   line-height: 1.55;
@@ -64,7 +63,6 @@ body {
   max-width: var(--max-w);
   margin: 0 auto;
   padding: var(--space-3) var(--space-2) var(--space-4);
-    background: var(--paper);
 }
 
 /* Skip link */
@@ -341,30 +339,21 @@ footer.app-footer {
   <a class="skip-link" href="#app-root">Skip to main content</a>
   <div class="app-shell">
     <header class="top">
-        <nav style="background-color: #2F6F62; padding: 10px 20px; font-family: Calibri, sans-serif;">
-<<<<<<< HEAD
+    <nav style="background-color: #2F6F62; padding: 10px 20px; font-family: Calibri, sans-serif;">
       <a href="https://www.wellpower.org/nextchapter-dashboard/" style="color:white" alt-text="Link to Next Chapter dashboard.">NC Dashboard</a> |
       <a href="https://docs.google.com/document/d/e/2PACX-1vQMBsH_0N5TGu-jf4dn7LtcuKICADPAKnV8rYs9ENAGFJxMu-1-ycSgytiCAv9m9ojY1P86kuOyOXaS/pub" style="color:white" alt-text="Link to Next Chapter class shcedule.">NC Class Schedule</a> |
       <a href="https://sw-bits.com" style="color:white" alt-text="Link to SW Bits, Ltd. company website to learn more about the author of this web app and their services.">SW Bits, Ltd.</a>
-=======
->>>>>>> 65bbc8cd5430af070112811382d2fd21328395a1
     </nav>
       <h1>This Month's Schedule Builder</h1>
       <p class="tagline">Instructions: Click &ldquo;Start Here,&rdquo; button; each button becomes active as you complete the steps.<ol><li>Import this month's Class Schedules, Outings, and Workshops per the provided instructions below.</li><li>Scroll back to the top and click "Build Schedule," until then it's inactive.</li><li>Finally, answer 7 questions to build YOUR CUSTOMIZED activity checklist for the month.</li></ol></p>
     </header>
     <main id="app-root" aria-live="polite"></main>
     <footer class="app-footer">
-      <p>Classes are parsed from the monthly newsletter text that
-   staff update in a separate process. Nothing here is
-   ever sent anywhere (to the internet, an AI or otherwise) or a server -- everything lives in this browser's
-   localStorage, so no personal data leaves the device.</p>
-      <!--<p style="font-style: italic;">Please note that once you close this window or tab ALL information is lost! You can go back and edit your answers to get new schedules. A best practice is to export the result to Google Doc and turn into a LIVE check list you can have in your pocket and check off as classes happen and know exactly what's happening next based off 10 minutes effort!</p>-->
-<<<<<<< HEAD
-      <p><a href="https://github.com/mcfuzznstuff/NextChapterScheduler/blob/962bdb5188cb66d9fc20da7f0fd749cfb234ecb9/FAQ%20%E2%80%94%20NextChapter%20Schedule%20Builder%20(v1.0).md" alt-text="Link to the FAQ for this web app.">FAQ</a></p>
-=======
->>>>>>> 65bbc8cd5430af070112811382d2fd21328395a1
+      <p>Nothing you enter here is sent anywhere (to the internet, an AI or otherwise) or saved outside this device and instance of usage.</p>
+      <p style="font-style: italic;">Please note that once you close this window or tab ALL information is lost! You can go back and edit your answers to get new schedules. A best practice is to export the result to Google Doc and turn into a LIVE check list you can have in your pocket and check off as classes happen and know exactly what's happening next based off 10 minutes effort!</p>
+      <p><a href="https://github.com/mcfuzznstuff/NextChapterScheduler/blob/main/FAQ%20%E2%80%94%20NextChapter%20Schedule%20Builder%20(v1.0).md">FAQ</a></p>
     </footer>
-    <footer style="background-color: #2F6F62; padding: 10px 20px; font-family: Calibri, sans-serif;">
+     <footer style="background-color: #2F6F62; padding: 10px 20px; font-family: Calibri, sans-serif;">
         <p>Author: SW Bits, Ltd. 2026 | <a href="#" alt-text="Link to this app's accessibility policy." style="color:white">Accessibility</a> | <a href="https://github.com/mcfuzznstuff/NextChapterScheduler/blob/main/Privacy%20Policy.md" alt-text="Link to this app's privacy policy." style="color:white">Privacy Policy</a></p>
       <p>Further troubleshooting and accessibility information: <a href="mailto:info@sw-bits.com" alt-text="Link to this app's author email for more information, media inquiries, or troubleshooting." style="color:white">info@sw-bits.com</a></p>
     </footer>
@@ -410,6 +399,7 @@ const ENERGY_OPTIONS = [
   { id: 'limited_walking', label: 'Light walking is okay, but not long distances', riskKeywords: ['walk', 'hike', 'pickleball', 'bowling'] },
   { id: 'seated_breaks', label: 'I need seated break options during activities', riskKeywords: ['standing', 'gym'] },
   { id: 'no_lifting', label: "I'd like to avoid lifting or resistance activities", riskKeywords: ['lifting', 'resistance', 'weight'] },
+  { id: 'asl_interpreter', label: 'I need an ASL interpreter', riskKeywords: [] },
   { id: 'no_restrictions', label: 'No restrictions', riskKeywords: [] }
 ];
 
@@ -422,15 +412,24 @@ function loadClasses() {
 }
 function saveClasses(list) { localStorage.setItem(STORAGE_KEY, JSON.stringify(list)); }
 function cryptoId() { return 'c_' + Math.random().toString(36).slice(2, 10); }
+// Collapses invisible Unicode whitespace look-alikes (non-breaking space,
+// ideographic space, zero-width space, etc.) to a plain space. Pasted
+// newsletter text can carry these silently -- they look identical to a
+// normal space on screen but won't match a normally-typed word, so any
+// text used for substring matching (exclusions, always-include, theme
+// tagging) needs to go through this first.
+function normalizeText(str) {
+  return (str || '').replace(/[\u00A0\u2000-\u200B\u202F\u205F\u3000]/g, ' ');
+}
 function splitKeywords(text) {
-  return (text || '').split(',').map(s => s.trim().toLowerCase()).filter(Boolean);
+  return normalizeText(text).split(',').map(s => s.trim().toLowerCase()).filter(Boolean);
 }
 function textMatchesAny(text, keywords) {
-  const lower = (text || '').toLowerCase();
+  const lower = normalizeText(text).toLowerCase();
   return keywords.some(k => k && lower.includes(k));
 }
 function autoTagThemes(title, description) {
-  const text = (title + ' ' + description).toLowerCase();
+  const text = normalizeText(title + ' ' + description).toLowerCase();
   return THEMES.filter(theme => (THEME_KEYWORDS[theme] || []).some(kw => text.includes(kw)));
 }
 
@@ -474,6 +473,7 @@ function parseSingleTime(raw) {
    like "MONDAY".
    ========================================================== */
 function parseNewsletterText(raw) {
+  raw = raw.replace(/\uff5c/g, '|'); // normalize fullwidth "｜" to a regular pipe -- some newsletter lines use it interchangeably with "|"
   const lines = raw.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
   const dayHeaderRe = /^(MONDAY|TUESDAY|WEDNESDAY|THURSDAY|FRIDAY)\b/i;
   const entryRe = /^([*#]?)\s*([0-9:. ]+(?:AM|PM)?\s*[-–—]\s*[0-9:. ]+(?:AM|PM))\s*\|\s*(.*)$/i;
@@ -687,7 +687,7 @@ function renderStudentFlow() {
   if (state.classes.length === 0) {
     const banner = document.createElement('p');
     banner.className = 'banner danger';
-    banner.textContent = "This month's activities haven't been added yet. Click the \"Start Here\"  button to add them.";
+    banner.textContent = "This month's activities haven't been added yet. Go to \"This Month's Activities\" to add them.";
     wrap.appendChild(banner);
     return wrap;
   }
@@ -1032,7 +1032,7 @@ function buildSchedule() {
         winners.forEach(c => items.push({
           title: c.title, timeLabel: c.timeLabel, startMin: c.startMin, location: c.location,
           instructor: c.instructor, mode: c.mode, description: c.description,
-          mustHave: c._mustHave, flagged: c._flagged, isOuting: !!c.isOuting, kind: c.kind, sourceId: c.id
+          mustHave: c._mustHave, flagged: c._flagged, isOuting: !!c.isOuting, kind: c.kind, sourceId: c.id, weeklyNotes: c.weeklyNotes || ''
         }));
       });
 
@@ -1062,33 +1062,118 @@ function itemEmoji(it) {
 }
 const LEGEND_TEXT = 'LEGEND\n\ud83d\udccb = structured class, planned regular attendance\n\u2b50 = outing, must sign up (add a number beside the star for your own priority order)\n\ud83e\uddd1\u200d\ud83c\udfeb = workshop, must sign up';
 const LEGEND_HTML = '<p><strong>LEGEND</strong><br>\ud83d\udccb = structured class, planned regular attendance<br>\u2b50 = outing, must sign up (add a number beside the star for your own priority order)<br>\ud83e\uddd1\u200d\ud83c\udfeb = workshop, must sign up</p>';
-function buildPrintableHtml(sched) {
-  const weekBlocks = (sched?.weeks || []).map(week => {
-    const dayBlocks = week.days.map(d => {
-      const items = d.items.map(it =>
-        `<li>${itemEmoji(it)} <strong>${escapeHtml(it.title)}</strong> \u2014 ${escapeHtml(it.timeLabel || '')}${it.location ? ', ' + escapeHtml(it.location) : ''}${it.instructor ? ', ' + escapeHtml(it.instructor) : ''}${it.isOuting ? ' (' + (it.kind === 'workshop' ? 'Workshop' : 'Outing') + ' \u2014 sign up at front desk)' : ''}${it.description ? '<br><span style="color:#45564F">' + escapeHtml(it.description) + '</span>' : ''}</li>`
-      ).join('');
-      return `<h3>${escapeHtml(d.dayName)}, ${escapeHtml(d.date)}</h3><ul>${items}</ul>`;
-    }).join('');
-    return `<h2>${escapeHtml(week.label)}</h2>${dayBlocks}`;
-  }).join('');
 
+/* ==========================================================
+   3-PART EXPORT STRUCTURE (classes grid + outings list +
+   workshops list), used by Print and Google Doc exports only.
+   The on-screen results screen keeps its own day-by-day view.
+   ========================================================== */
+function parseWeeklyNotes(text) {
+  const map = {};
+  if (!text) return map;
+  text.split(';').forEach(part => {
+    const m = part.trim().match(/^Wk\s*(\d+)\s*:\s*(.+)$/i);
+    if (m) map[parseInt(m[1], 10)] = m[2].trim();
+  });
+  return map;
+}
+function cellTextForItem(item, weekNum) {
+  const override = parseWeeklyNotes(item.weeklyNotes)[weekNum];
+  return override ? (item.title + ': ' + override) : item.title;
+}
+function getStaffNotes() {
+  const a = state.answers;
+  const selectedLabels = (a.energy || [])
+    .filter(id => id !== 'no_restrictions')
+    .map(id => { const opt = ENERGY_OPTIONS.find(o => o.id === id); return opt ? opt.label : null; })
+    .filter(Boolean);
+  const freeText = (a.energyNotes || '').trim();
+  if (selectedLabels.length === 0 && !freeText) return null;
+  return { selectedLabels, freeText };
+}
+function groupScheduleForExport(sched) {
+  const weekLabels = sched.weeks.map(w => w.label);
+  const grid = {};
+  DAYS.forEach(day => { grid[day] = sched.weeks.map(() => []); });
+  const outings = [];
+  const workshops = [];
+
+  sched.weeks.forEach((week, wi) => {
+    week.days.forEach(dayEntry => {
+      dayEntry.items.forEach(item => {
+        if (item.isOuting) {
+          const entry = Object.assign({}, item, { dayName: dayEntry.dayName, date: dayEntry.date });
+          (item.kind === 'workshop' ? workshops : outings).push(entry);
+        } else {
+          grid[dayEntry.day][wi].push(item);
+        }
+      });
+    });
+  });
+
+  const usedDays = DAYS.filter(day => grid[day].some(cell => cell.length > 0));
+  return { weekLabels, grid, usedDays, outings, workshops };
+}
+function buildScheduleBodyHtml(sched) {
+  if (!sched || !sched.weeks.length) return '<p>No matching activities were found.</p>';
+  const grouped = groupScheduleForExport(sched);
+  let html = '';
+
+  const notes = getStaffNotes();
+  if (notes) {
+    html += '<h2>Notes for Staff</h2>';
+    if (notes.selectedLabels.length) html += '<p>Mobility/energy needs indicated: ' + escapeHtml(notes.selectedLabels.join(', ')) + '</p>';
+    if (notes.freeText) html += '<p><em>&ldquo;' + escapeHtml(notes.freeText) + '&rdquo;</em></p>';
+  }
+
+  if (grouped.usedDays.length > 0) {
+    html += '<h2>Weekly Classes</h2>';
+    html += '<table style="border-collapse:collapse;width:100%;">';
+    html += '<tr><th style="border:1px solid #C9D2C6;padding:8px;text-align:left;"></th>' +
+      grouped.weekLabels.map(l => '<th style="border:1px solid #C9D2C6;padding:8px;text-align:left;">' + escapeHtml(l) + '</th>').join('') + '</tr>';
+    grouped.usedDays.forEach(day => {
+      html += '<tr><td style="border:1px solid #C9D2C6;padding:8px;font-weight:bold;vertical-align:top;">' + escapeHtml(DAY_NAMES[day]) + '</td>';
+      grouped.grid[day].forEach((cellItems, wi) => {
+        const cellHtml = cellItems.map(it => itemEmoji(it) + ' ' + escapeHtml(cellTextForItem(it, wi + 1)) + ' \u2014 ' + escapeHtml(it.timeLabel || '')).join('<br>');
+        html += '<td style="border:1px solid #C9D2C6;padding:8px;vertical-align:top;">' + cellHtml + '</td>';
+      });
+      html += '</tr>';
+    });
+    html += '</table>';
+  }
+
+  if (grouped.outings.length > 0) {
+    html += '<h2>Outings</h2><ul>' + grouped.outings.map(it =>
+      '<li>' + itemEmoji(it) + ' <strong>' + escapeHtml(it.title) + '</strong> \u2014 ' + escapeHtml(it.dayName) + ', ' + escapeHtml(it.date) + ', ' + escapeHtml(it.timeLabel || '') + (it.location ? ', ' + escapeHtml(it.location) : '') + ' \u2014 sign up at front desk' + (it.description ? '<br><span style="color:#45564F">' + escapeHtml(it.description) + '</span>' : '') + '</li>'
+    ).join('') + '</ul>';
+  }
+  if (grouped.workshops.length > 0) {
+    html += '<h2>Workshops</h2><ul>' + grouped.workshops.map(it =>
+      '<li>' + itemEmoji(it) + ' <strong>' + escapeHtml(it.title) + '</strong> \u2014 ' + escapeHtml(it.dayName) + ', ' + escapeHtml(it.date) + ', ' + escapeHtml(it.timeLabel || '') + (it.location ? ', ' + escapeHtml(it.location) : '') + ' \u2014 sign up at front desk' + (it.description ? '<br><span style="color:#45564F">' + escapeHtml(it.description) + '</span>' : '') + '</li>'
+    ).join('') + '</ul>';
+  }
+
+  html += LEGEND_HTML;
+  return html;
+}
+
+function buildPrintableHtml(sched) {
+  const body = buildScheduleBodyHtml(sched);
   return `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>My Schedule</title>
     <style>
       @import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap');
-      body{font-family:'Atkinson Hyperlegible',Arial,Helvetica,sans-serif;font-size:16px;color:#1F2E2B;max-width:680px;margin:24px auto;padding:0 16px;line-height:1.55;}
+      body{font-family:'Atkinson Hyperlegible',Arial,Helvetica,sans-serif;font-size:16px;color:#1F2E2B;max-width:760px;margin:24px auto;padding:0 16px;line-height:1.55;}
       h1{color:#234F45;} h2{color:#2F6F62;margin-top:28px;border-bottom:2px solid #C9D2C6;padding-bottom:4px;}
-      h3{color:#1F2E2B;margin:16px 0 4px;font-size:1.05rem;}
       ul{padding-left:20px;} li{margin-bottom:10px;line-height:1.5;}
+      table{margin-top:8px;}
       .print-btn{margin:16px 0;padding:10px 20px;font-size:1rem;border-radius:999px;border:2px solid #2F6F62;background:#2F6F62;color:#fff;cursor:pointer;min-height:44px;}
       @media print { .print-btn{display:none;} }
     </style></head><body>
     <h1>My NextChapter Schedule</h1>
     <button class="print-btn" onclick="window.print()">Print this page</button>
-    ${weekBlocks || '<p>No matching activities were found.</p>'}
-    ${weekBlocks ? LEGEND_HTML : ''}
+    ${body}
     </body></html>`;
 }
 
@@ -1111,30 +1196,46 @@ function openPrintableSchedule(sched) {
    ========================================================== */
 function scheduleToPlainText(sched) {
   if (!sched || !sched.weeks.length) return 'No matching activities were found.';
-  const body = sched.weeks.map(week => {
-    const lines = [];
-    week.days.forEach(d => {
-      d.items.forEach(it => {
-        lines.push(itemEmoji(it) + ' ' + d.dayName + ', ' + d.date + ' | ' + (it.timeLabel || '') + ' | ' + it.title + ' (' + capitalize(it.mode) + (it.location ? ', ' + it.location : '') + ')' + (it.isOuting ? ' [' + (it.kind === 'workshop' ? 'Workshop' : 'Outing') + ' -- sign up at front desk]' : '') + (it.description ? ' \u2014 ' + it.description : ''));
-      });
+  const grouped = groupScheduleForExport(sched);
+  const sections = [];
+
+  const notes = getStaffNotes();
+  if (notes) {
+    const lines = ['NOTES FOR STAFF'];
+    if (notes.selectedLabels.length) lines.push('Mobility/energy needs indicated: ' + notes.selectedLabels.join(', '));
+    if (notes.freeText) lines.push('"' + notes.freeText + '"');
+    sections.push(lines.join('\n'));
+  }
+
+  if (grouped.usedDays.length > 0) {
+    const dayBlocks = grouped.usedDays.map(day => {
+      const lines = grouped.grid[day].map((cellItems, wi) => {
+        if (cellItems.length === 0) return null;
+        const entries = cellItems.map(it => itemEmoji(it) + ' ' + cellTextForItem(it, wi + 1) + ' \u2014 ' + (it.timeLabel || '')).join('; ');
+        return '  ' + grouped.weekLabels[wi] + ': ' + entries;
+      }).filter(Boolean);
+      return DAY_NAMES[day].toUpperCase() + '\n' + lines.join('\n');
     });
-    return week.label + '\n' + lines.join('\n');
-  }).join('\n\n');
-  return body + '\n\n' + LEGEND_TEXT;
+    sections.push('WEEKLY CLASSES\n\n' + dayBlocks.join('\n\n'));
+  }
+
+  if (grouped.outings.length > 0) {
+    sections.push('OUTINGS\n' + grouped.outings.map(it =>
+      itemEmoji(it) + ' ' + it.title + ' \u2014 ' + it.dayName + ', ' + it.date + ', ' + (it.timeLabel || '') + (it.location ? ', ' + it.location : '') + ' \u2014 sign up at front desk'
+    ).join('\n'));
+  }
+  if (grouped.workshops.length > 0) {
+    sections.push('WORKSHOPS\n' + grouped.workshops.map(it =>
+      itemEmoji(it) + ' ' + it.title + ' \u2014 ' + it.dayName + ', ' + it.date + ', ' + (it.timeLabel || '') + (it.location ? ', ' + it.location : '') + ' \u2014 sign up at front desk'
+    ).join('\n'));
+  }
+
+  sections.push(LEGEND_TEXT);
+  return sections.join('\n\n');
 }
 
 function scheduleToHtml(sched) {
-  if (!sched || !sched.weeks.length) return '<p>No matching activities were found.</p>';
-  const weekBlocks = sched.weeks.map(week => {
-    const dayBlocks = week.days.map(d => {
-      const items = d.items.map(it =>
-        `<li>${itemEmoji(it)} <strong>${escapeHtml(it.title)}</strong> \u2014 ${escapeHtml(it.timeLabel || '')}${it.location ? ', ' + escapeHtml(it.location) : ''}${it.isOuting ? ' (' + (it.kind === 'workshop' ? 'Workshop' : 'Outing') + ' \u2014 sign up at front desk)' : ''}${it.description ? '<br><span style="color:#45564F">' + escapeHtml(it.description) + '</span>' : ''}</li>`
-      ).join('');
-      return `<p><strong>${escapeHtml(d.dayName)}, ${escapeHtml(d.date)}</strong></p><ul>${items}</ul>`;
-    }).join('');
-    return `<h2>${escapeHtml(week.label)}</h2>${dayBlocks}`;
-  }).join('');
-  return weekBlocks + LEGEND_HTML;
+  return buildScheduleBodyHtml(sched);
 }
 
 async function copyTextToClipboard(text) {
@@ -1189,10 +1290,12 @@ function openInGoogleDoc(sched, statusEl) {
 }
 
 function getCandidatesForDay(dayEntry) {
+  const hardExclude = splitKeywords(state.answers.hardExclude);
+  const notExcluded = c => !textMatchesAny(c.title + ' ' + c.description, hardExclude);
   const shownIds = new Set(dayEntry.items.map(i => i.sourceId).filter(Boolean));
-  const regular = state.classes.filter(c => !c.isOuting && !c.canceled && c.day === dayEntry.day && !shownIds.has(c.id));
+  const regular = state.classes.filter(c => !c.isOuting && !c.canceled && c.day === dayEntry.day && !shownIds.has(c.id) && notExcluded(c));
   const outingsHere = state.classes.filter(c => c.isOuting && !c.canceled && dayEntry.rawDate &&
-    sameDate(parseOutingDateString(c.date, dayEntry.rawDate.getFullYear()), dayEntry.rawDate) && !shownIds.has(c.id));
+    sameDate(parseOutingDateString(c.date, dayEntry.rawDate.getFullYear()), dayEntry.rawDate) && !shownIds.has(c.id) && notExcluded(c));
   return regular.concat(outingsHere).sort((a, b) => (a.startMin || 0) - (b.startMin || 0));
 }
 
@@ -1262,7 +1365,7 @@ function renderResultsCard() {
             dayEntry.items.push({
               title: chosen.title, timeLabel: chosen.timeLabel, startMin: chosen.startMin, location: chosen.location,
               instructor: chosen.instructor, mode: chosen.mode, description: chosen.description,
-              mustHave: false, flagged: false, isOuting: !!chosen.isOuting, kind: chosen.kind, sourceId: chosen.id
+              mustHave: false, flagged: false, isOuting: !!chosen.isOuting, kind: chosen.kind, sourceId: chosen.id, weeklyNotes: chosen.weeklyNotes || ''
             });
             dayEntry.items.sort((a, b) => (a.startMin || 0) - (b.startMin || 0));
             render();
@@ -1396,13 +1499,13 @@ function renderReviewTableCard() {
   const h2 = document.createElement('h2'); h2.style.color = 'var(--primary-dark)'; h2.textContent = `This month's activities (${state.classes.length})`;
   card.appendChild(h2);
   const p = document.createElement('p'); p.className = 'hint';
-  p.textContent = 'Fix anything the automatic reading got wrong, or add activities by hand. "Date" only applies to outings/workshops -- leave it blank for a regular weekly class. This list is stored only in this browser.';
+  p.textContent = 'Fix anything the automatic reading got wrong, or add activities by hand. "Date" only applies to outings/workshops -- leave it blank for a regular weekly class. "Weekly notes" is optional, only for a class whose content changes week to week (e.g. "Wk1: Americana; Wk2: Summer Songs") -- leave blank if it doesn\'t. This list is stored only in this browser.';
   card.appendChild(p);
 
   const table = document.createElement('table'); table.className = 'admin-table';
   table.innerHTML = `<thead><tr>
       <th scope="col">Title</th><th scope="col">Day</th><th scope="col">Date</th><th scope="col">Time</th>
-      <th scope="col">Mode</th><th scope="col">Location</th><th scope="col">Themes (auto)</th><th scope="col">Remove</th>
+      <th scope="col">Mode</th><th scope="col">Location</th><th scope="col">Weekly notes</th><th scope="col">Themes (auto)</th><th scope="col">Remove</th>
     </tr></thead>`;
   const tbody = document.createElement('tbody');
   state.classes.forEach((c, idx) => {
@@ -1413,6 +1516,7 @@ function renderReviewTableCard() {
     tr.appendChild(makeTextCell(c, idx, 'timeLabel', 'e.g. 9-10 AM'));
     tr.appendChild(makeSelectCell(c, idx, 'mode', ['online', 'hybrid', 'in-person']));
     tr.appendChild(makeTextCell(c, idx, 'location', 'Location'));
+    tr.appendChild(makeTextCell(c, idx, 'weeklyNotes', 'e.g. Wk1: Americana; Wk2: Summer Songs'));
     const themeTd = document.createElement('td'); themeTd.textContent = (c.themes || []).join(', ') || '—';
     tr.appendChild(themeTd);
     const removeTd = document.createElement('td');
@@ -1427,7 +1531,7 @@ function renderReviewTableCard() {
   const addBtn = document.createElement('button'); addBtn.className = 'btn secondary'; addBtn.style.marginTop = '16px';
   addBtn.textContent = '+ Add a class by hand';
   addBtn.addEventListener('click', () => {
-    state.classes.push({ id: cryptoId(), title: '', day: 'Mon', startMin: 540, endMin: 600, timeLabel: '9-10 AM', mode: 'in-person', location: '', instructor: '', description: '', themes: [] });
+    state.classes.push({ id: cryptoId(), title: '', day: 'Mon', startMin: 540, endMin: 600, timeLabel: '9-10 AM', mode: 'in-person', location: '', instructor: '', description: '', weeklyNotes: '', themes: [] });
     saveClasses(state.classes); render();
   });
   card.appendChild(addBtn);
